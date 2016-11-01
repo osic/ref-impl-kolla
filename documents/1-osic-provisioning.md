@@ -1,5 +1,5 @@
-Part 1: Provisioning and bootstraping the server
-================================================
+Part 1: Provisioning the server
+===============================
 
 
 Overview
