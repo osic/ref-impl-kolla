@@ -1,5 +1,8 @@
+Part 2: Bootstraping the server and creating docker registry.
+=============================================================
+
 A.) Bootstrapping the Servers
-=============================
+-----------------------------
 
 When all servers finish PXE booting, you will now need to bootstrap the servers.
 
@@ -115,7 +118,7 @@ Once all servers reboot, you can begin installing openstack-ansible.
 
 
 B.) Creating docker registry
-============================
+----------------------------
 
 Openstack Kolla uses docker images to install OpenStack services. For multinode deployment, Openstack kolla uses the docker registry running on the deployment host to pull images and create containers. The following steps should be performed on the deployment host:
 
