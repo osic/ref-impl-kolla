@@ -16,8 +16,8 @@ Step 3. PXE Boot the Servers.
 Step 4. Bootstraping the servers.
 
 
-Bare Metal Servers provisioning
---------------------------------
+A.) Bare Metal Servers provisioning
+-----------------------------------
 You will need to provision the bare metal servers with an Operating System most likely Linux if you will later be using an Open Source platform to build your cloud. On a production deployment, the process of deploying all these servers starts by manually provisioning the first of your servers. This host will become your deployment host and will be used later to provision the rest of the servers by booting them over Network. 
 
 #### ILO overview
@@ -30,7 +30,7 @@ ILO or Integrated Lights-Out, is a card integrated to the motherboard in most HP
 * Monitor server health
 
 
-#### A.) Manually Provision the Deployment Host
+#### Manually Provision the Deployment Host
 
 In this step, you will provision your deployment host with a Ubuntu Server 14.04.3. 
 
@@ -91,7 +91,7 @@ You will need to update the Linux kernel on the deployment host in order to get 
 When the update finishes running, __reboot__ the server and proceed with the rest of the guide.
 
 B.) Download and Setup the osic-prep LXC Container
-----------------------------------------------
+--------------------------------------------------
 
 You have now successfully provisioned your own deployment host and should now be able to ssh to it using the IP address you manually assigned while install
  the deployment host provisioning done, SSH to it.
@@ -425,106 +425,4 @@ __NOTE__: In case you want to re-pxeboot servers, make sure to clean old setting
 
     for i in `cobbler system list`; do cobbler system remove --name $i; done;
 
-
-D.) Bootstrapping the Servers
------------------------------
-
 When all servers finish PXE booting, you will now need to bootstrap the servers.
-
-##### Step 1: Generate Multinode Inventory
-
-Start by running the `generate_ansible_hosts.py` Python script:
-
-    cd /root/rpc-prep-scripts
-
-    python generate_ansible_hosts.py /root/input.csv > /root/osic-prep-ansible/hosts
-
-If this will be an openstack-kolla installation, organize the Ansible __hosts__ file into groups for __controller__, __monitoring__, __compute__, __storage__, and __network__, otherwise leave the Ansible __hosts__ file as it is and jump to the next section.
-
-An example for openstack-ansible installation:
-
-    [controller]
-    744800-infra01.example.com ansible_ssh_host=10.240.0.51
-    744819-infra02.example.com ansible_ssh_host=10.240.0.52
-    744820-infra03.example.com ansible_ssh_host=10.240.0.53
-
-    [monitoring]
-    744821-logging01.example.com ansible_ssh_host=10.240.0.54
-
-    [compute]
-    744822-compute01.example.com ansible_ssh_host=10.240.0.55
-    744823-compute02.example.com ansible_ssh_host=10.240.0.56
-
-    [storage]
-    744824-cinder01.example.com ansible_ssh_host=10.240.0.57
-    744825-object01.example.com ansible_ssh_host=10.240.0.58
-    744826-object02.example.com ansible_ssh_host=10.240.0.59
-    744827-object03.example.com ansible_ssh_host=10.240.0.60
-
-##### Step 2: Verify Connectivity
-
-The LXC container will not have all of the new server's SSH fingerprints in its __known_hosts__ file. This is needed to bypass prompts and create a silent login when SSHing to servers. Programatically add them by running the following command:
-
-    for i in $(cat /root/osic-prep-ansible/hosts | awk /ansible_ssh_host/ | cut -d'=' -f2)
-    do
-    ssh-keygen -R $i
-    ssh-keyscan -H $i >> /root/.ssh/known_hosts
-    done
-
-Verify Ansible can talk to every server (the password is __cobbler__):
-
-    cd /root/osic-prep-ansible
-
-    ansible -i hosts all -m shell -a "uptime" --ask-pass
-
-##### Step 3: Setup SSH Public Keys
-
-Generate an SSH key pair for the LXC container:
-
-    ssh-keygen
-
-Copy the LXC container's SSH public key to the __osic-prep-ansible__ directory:
-
-    cp /root/.ssh/id_rsa.pub /root/osic-prep-ansible/playbooks/files/public_keys/osic-prep
-
-##### Step 4: Bootstrap the Servers
-
-Finally, run the bootstrap.yml Ansible Playbook (the password is again __cobbler__):
-
-    cd /root/osic-prep-ansible
-
-    ansible-playbook -i hosts playbooks/bootstrap.yml --ask-pass
-
-##### Step 5: Clean Up LVM Logical Volumes
-
-If this will be an openstack-ansible installation, you will need to clean up particular LVM Logical Volumes.
-
-Each server is provisioned with a standard set of LVM Logical Volumes. Not all servers need all of the LVM Logical Volumes. Clean them up with the following steps.
-
-Remove LVM Logical Volume __nova00__ from the Controller, Logging, Cinder, and Swift nodes:
-
-    ansible-playbook -i hosts playbooks/remove-lvs-nova00.yml
-
-Remove LVM Logical Volume __deleteme00__ from all nodes:
-
-    ansible-playbook -i hosts playbooks/remove-lvs-deleteme00.yml
-
-##### Step 6: Update Linux Kernel
-
-Every server in the OSIC RAX Cluster is running two Intel X710 10 GbE NICs. These NICs have not been well tested in Ubuntu and as such the upstream i40e driver in the default 14.04.3 Linux kernel will begin showing issues when you setup VLAN tagged interfaces and bridges.
-
-In order to get around this, you must install an updated Linux kernel.
-
-You can do this by running the following commands:
-
-    cd /root/osic-prep-ansible
-
-    ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-generic-lts-xenial" --forks 25
-
-##### Step 7: Reboot Nodes
-
-Finally, reboot all servers:
-
-    ansible -i hosts all -m shell -a "reboot" --forks 25
-
-Once all servers reboot, you can begin installing openstack-ansible.
