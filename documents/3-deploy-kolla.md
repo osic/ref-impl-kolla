@@ -71,8 +71,7 @@ GLOBALS_FILE=/etc/kolla/globals.yml
 sudo sed -i 's/^#kolla_base_distro.*/kolla_base_distro: "ubuntu"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_install_type.*/kolla_install_type: "source"/' $GLOBALS_FILE
 
-#Use an unused IP on your network as the internal and external vip address.
-This IP address also called Virtual IP will float between hosts when haproxy and keepalived is running for high-availability. If your network is something like 172.22.0.57/22 then use the last address such as the 172.22.0.254 as the virtual IP.
+#Use an unused IP on your network as the internal and external vip address.This IP address also called Virtual IP will float between hosts when haproxy and keepalived is running for high-availability. If your network is something like 172.22.0.57/22 then use the last address such as the 172.22.0.254 as the virtual IP.
 INTERNAL_IP=""
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
