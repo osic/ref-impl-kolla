@@ -1,4 +1,5 @@
 A.) Deploying Openstack Kolla
+=============================
 
 
 Intro
@@ -84,4 +85,54 @@ sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SE
 #In case of multinode deployment, the deployment host must inform all nodes information about the docker registry:
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
 sudo sed -i 's/#docker_registry.*/docker_registry: '${registry_host}'/g' $GLOBALS_FILE
+```
+
+#Enable required OpenStack Services
+sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#enable_swift:.*/enable_swift: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
+```
+
+7.) Generate passwords for individual openstack services:
+
+```shell
+#Generate Passwords
+kolla-genpwd
+
+#Check passwords.yaml to view passwords.
+vi /etc/kolla/passwords.yaml
+```
+
+#### Step 2: Deploy Kolla
+1.) Switch to Kolla Directory
+
+```shell
+cd /opt/kolla
+```
+
+2.) Pre-deployment checks for hosts which includes the port scans and globals.yaml validation:
+
+```shell
+kolla-ansible -i ansible/inventory/multinode prechecks
+```
+
+3.) Pull all images for containers:
+
+```shell
+kolla-ansible -i ansible/inventory/multinode pull
+```
+
+4.) Deploy Openstack services:
+
+```shell
+kolla-ansible -i ansible/inventory/multinode deploy
+```
+
+5.) Create Openstack rc file on deployment node (generated in /etc/kolla):
+
+```shell
+kolla-ansible -i ansible/inventory/multinode post-deploy
 ```
