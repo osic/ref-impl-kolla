@@ -1,5 +1,5 @@
-OSIC Deployment Process
-=======================
+OSIC Kolla Deployment Process
+=============================
 
 Overview
 ---------
