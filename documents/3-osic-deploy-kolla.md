@@ -89,11 +89,8 @@ sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SE
 #In case of multinode deployment, the deployment host must inform all nodes information about the docker registry:
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
 sudo sed -i 's/#docker_registry.*/docker_registry: '${registry_host}'/g' $GLOBALS_FILE
-```
 
 #Enable required OpenStack Services
-
-```shell
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
@@ -139,7 +136,8 @@ Once all servers reboot, you can begin installing openstack-ansible.
 3.) Bootstrap target host:
 
 ```shell
- ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
+cd /opt/kolla
+ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
 ##### Step 3: Deploy Kolla
@@ -149,26 +147,26 @@ Once all servers reboot, you can begin installing openstack-ansible.
 cd /opt/kolla
 ```
 
-2.) Pre-deployment checks for hosts which includes the port scans and globals.yaml validation:
+2.) Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (Enter password as: cobbler):
 
 ```shell
-kolla-ansible -i ansible/inventory/multinode prechecks
+ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/prechecks.yml --ask-pass
 ```
 
-3.) Pull all images for containers:
+3.) Pull all images for containers (Enter password as: cobbler):
 
 ```shell
-kolla-ansible -i ansible/inventory/multinode pull
+ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=pull /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-4.) Deploy Openstack services:
+4.) Deploy Openstack services (Enter password as: cobbler):
 
 ```shell
-kolla-ansible -i ansible/inventory/multinode deploy
+ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-5.) Create Openstack rc file on deployment node (generated in /etc/kolla):
+5.) Create Openstack rc file on deployment node (generated in /etc/kolla)(Enter password as: cobbler):
 
 ```shell
-kolla-ansible -i ansible/inventory/multinode post-deploy
-```
+ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/post-deploy.yml --ask-pass
+ ```
