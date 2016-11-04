@@ -1,5 +1,5 @@
-A.) Deploying Openstack Kolla
-=============================
+Deploying Openstack Kolla
+==========================
 
 
 Intro
@@ -28,6 +28,7 @@ __Note:__ If you are in osic-prep-container exit and return back to your host.
 ```shell
 apt-get update
 ```
+
 2.) For Ubuntu based systems where Docker is used it is recommended to use the latest available LTS kernel. The latest LTS kernel available is the wily kernel (version 4.2). While all kernels should work for Docker, some older kernels may have issues with some of the different Docker backends such as AUFS and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ```shell
@@ -36,20 +37,23 @@ reboot
 ```
 
 3.) Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
-    #Python and python-pip
-    apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
-    
-    #Install Ansible to execute ansible-playbooks
-    apt-get install -y ansible
-    
-    #Install Dependencies
-    pip install -r requirements.txt -r test-requirements.txt
-    pip install -U docker-py
 
-   #Install kolla wrapper from source:
-    cd /opt/kolla
-    python setup.py install
+```shell
+#Python and python-pip
+apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
+    
+#Install Ansible to execute ansible-playbooks
+apt-get install -y ansible
+    
+#Install Dependencies
+pip install -r requirements.txt -r test-requirements.txt
+pip install -U docker-py
 
+#Install kolla wrapper from source:
+cd /opt/kolla
+python setup.py install
+
+```
 
 4.) Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
 
@@ -88,6 +92,8 @@ sudo sed -i 's/#docker_registry.*/docker_registry: '${registry_host}'/g' $GLOBAL
 ```
 
 #Enable required OpenStack Services
+
+```shell
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
@@ -101,12 +107,42 @@ sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/
 ```shell
 #Generate Passwords
 kolla-genpwd
-
 #Check passwords.yaml to view passwords.
 vi /etc/kolla/passwords.yaml
 ```
 
-#### Step 2: Deploy Kolla
+##### Step 2: Bootstrap Servers:
+
+1.) Update Linux Kernel of Target hosts:
+
+Every server in the OSIC RAX Cluster is running two Intel X710 10 GbE NICs. These NICs have not been well tested in Ubuntu and as such the upstream i40e driver in the default 14.04.3 Linux kernel will begin showing issues when you setup VLAN tagged interfaces and bridges.
+
+In order to get around this, you must install an updated Linux kernel.
+
+You can do this by running the following commands:
+
+```shell
+cd /root/osic-prep-ansible
+ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-generic-lts-xenial" --forks 25
+```
+
+2.) Reboot Nodes to reflect kernel changes:
+
+Finally, reboot all servers:
+
+```shell
+ansible -i hosts all -m shell -a "reboot" --forks 25
+```
+
+Once all servers reboot, you can begin installing openstack-ansible.
+
+3.) Bootstrap target host:
+
+```shell
+ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
+ ```
+
+##### Step 3: Deploy Kolla
 1.) Switch to Kolla Directory
 
 ```shell
