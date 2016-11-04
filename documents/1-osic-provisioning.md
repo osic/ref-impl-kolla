@@ -7,11 +7,11 @@ Overview
 
 The entire process of provisioning and bootstraping the server is performed through the following steps:
 
-* [Step 1: Bare Metal Servers Provisioning.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#bare-mmetal-servers-provisioning)
+[Step 1: Bare Metal Servers Provisioning.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#bare-metal-servers-provisioning)
 
-Step 2: Download and Setup the osic-prep LXC Container.
+[Step 2: Download and Setup the osic-prep LXC Container.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#download-and-setup-the-osic-prep-lxc-container)
 
-Step 3. PXE Boot the Servers.
+[Step 3. PXE Boot the Servers.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#pxe-boot-the-servers)
 
 
 Bare Metal Servers provisioning
@@ -88,8 +88,8 @@ You will need to update the Linux kernel on the deployment host in order to get 
 
 When the update finishes running, __reboot__ the server and proceed with the rest of the guide.
 
-B.) Download and Setup the osic-prep LXC Container
---------------------------------------------------
+Download and Setup the osic-prep LXC Container
+----------------------------------------------
 
 You have now successfully provisioned your own deployment host and should now be able to ssh to it using the IP address you manually assigned while install
  the deployment host provisioning done, SSH to it.
@@ -239,8 +239,8 @@ There are a few configuration changes that need to be made to the pre-packaged L
     
 5. At this point you can PXE boot any servers, but it is still a manual process. In order for it to be an automated process, a CSV file needs to be created.
 
-C.) PXE Boot the Servers
-------------------------
+PXE Boot the Servers
+--------------------
 
 Once the osic-prep container is create and configured, you are now ready to PXE boot the rest of the servers through your deployment host. This is a two part process.
 
