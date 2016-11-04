@@ -108,7 +108,7 @@ kolla-genpwd
 vi /etc/kolla/passwords.yaml
 ```
 
-##### Step 2: Bootstrap Servers:
+#### Step 2: Bootstrap Servers:
 
 1.) Update Linux Kernel of Target hosts:
 
@@ -140,7 +140,7 @@ cd /opt/kolla
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
-##### Step 3: Deploy Kolla
+#### Step 3: Deploy Kolla
 1.) Switch to Kolla Directory
 
 ```shell
