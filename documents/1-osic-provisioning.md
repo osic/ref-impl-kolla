@@ -13,8 +13,6 @@ Step 2: Download and Setup the osic-prep LXC Container.
 
 Step 3. PXE Boot the Servers.
 
-Step 4. Bootstraping the servers.
-
 
 A.) Bare Metal Servers provisioning
 -----------------------------------
