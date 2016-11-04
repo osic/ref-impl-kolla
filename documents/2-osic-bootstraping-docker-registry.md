@@ -1,12 +1,12 @@
-Part 2: Bootstraping the server and creating docker registry.
-=============================================================
+Part 2: Generating multinode host inventory and creating docker registry.
+========================================================================
 
-A.) Bootstrapping the Servers
------------------------------
+A.) Generating multinode host inventory
+----------------------------------------
 
-When all servers finish PXE booting, you will now need to bootstrap the servers.
-
-##### Step 1: Generate Multinode Inventory
+When all servers finish PXE booting, you will now need to generate the multinode inventory which will contain the list of
+target hosts used for deployment.
+##### Step 1: Generate hosts file
 
 Start by running the `generate_ansible_hosts.py` Python script:
 
@@ -71,50 +71,7 @@ git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
 ```
 
 ##### Step 5: Copy the contents of hosts file generated in step 1 to multinode inventory.
-Replace each group in the multinode inventory file located in `/opt/kolla/ansible/inventory/multinode`  with the one generated in the `hosts` file.
-
-##### Step 6: Bootstrap the Servers
-
-Openstack Kolla uses a bootstrap process to install all the essential components required for smooth running of Openstack kolla.
-Once the repository is cloned, use ansible-playbook to run the bootstrap-servers playbook. The password is again __cobbler__.
-
-```shell
-ansible-playbook -i /opt/kolla/ansible/inventory/multinode ansible/kolla-host.yml --ask-pass
-```
-
-##### Step 7: Clean Up LVM Logical Volumes
-
-If this will be an openstack-ansible installation, you will need to clean up particular LVM Logical Volumes.
-
-Each server is provisioned with a standard set of LVM Logical Volumes. Not all servers need all of the LVM Logical Volumes. Clean them up with the following steps.
-
-Remove LVM Logical Volume __nova00__ from the Controller, Logging, Cinder, and Swift nodes:
-
-    ansible-playbook -i hosts playbooks/remove-lvs-nova00.yml
-
-Remove LVM Logical Volume __deleteme00__ from all nodes:
-
-    ansible-playbook -i hosts playbooks/remove-lvs-deleteme00.yml
-
-##### Step 8: Update Linux Kernel
-
-Every server in the OSIC RAX Cluster is running two Intel X710 10 GbE NICs. These NICs have not been well tested in Ubuntu and as such the upstream i40e driver in the default 14.04.3 Linux kernel will begin showing issues when you setup VLAN tagged interfaces and bridges.
-
-In order to get around this, you must install an updated Linux kernel.
-
-You can do this by running the following commands:
-
-    cd /root/osic-prep-ansible
-
-    ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-generic-lts-xenial" --forks 25
-
-##### Step 9: Reboot Nodes
-
-Finally, reboot all servers:
-
-    ansible -i hosts all -m shell -a "reboot" --forks 25
-
-Once all servers reboot, you can begin installing openstack-ansible.
+Replace each host group in the multinode inventory file located in `/opt/kolla/ansible/inventory/multinode`  with the one generated in the `hosts` file.
 
 
 B.) Creating docker registry
