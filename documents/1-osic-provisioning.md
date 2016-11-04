@@ -7,15 +7,15 @@ Overview
 
 The entire process of provisioning and bootstraping the server is performed through the following steps:
 
-Step 1: Bare Metal Servers Provisioning.
+* [Step 1: Bare Metal Servers Provisioning.](https://github.com/osic/ref-impl-kolla/edit/master/documents/1-osic-provisioning.md#bare-mmetal-servers-provisioning)
 
 Step 2: Download and Setup the osic-prep LXC Container.
 
 Step 3. PXE Boot the Servers.
 
 
-A.) Bare Metal Servers provisioning
------------------------------------
+Bare Metal Servers provisioning
+-------------------------------
 You will need to provision the bare metal servers with an Operating System most likely Linux if you will later be using an Open Source platform to build your cloud. On a production deployment, the process of deploying all these servers starts by manually provisioning the first of your servers. This host will become your deployment host and will be used later to provision the rest of the servers by booting them over Network. 
 
 #### ILO overview
