@@ -310,22 +310,22 @@ You will need to obtain the MAC address of the network interface (e.g. p1p1) con
    ```
    #An example of input.csv:
 
-    744800-infra01.example.com,A0:36:9F:7F:70:C0,172.22.0.23,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-generic
-    744819-infra02.example.com,A0:36:9F:7F:6A:C8,172.22.0.24,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-generic
-    744820-infra03.example.com,A0:36:9F:82:8C:E8,172.22.0.25,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-generic
-    744821-logging01.example.com,A0:36:9F:82:8C:E9,172.22.0.26,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-generic
-    744822-compute01.example.com,A0:36:9F:82:8C:EA,172.22.0.27,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-generic
-    744823-compute02.example.com,A0:36:9F:82:8C:EB,172.22.0.28,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-generic
-    744824-cinder01.example.com,A0:36:9F:82:8C:EC,172.22.0.29,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-cinder
-    744825-object01.example.com,A0:36:9F:7F:70:C1,172.22.0.30,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-swift
-    744826-object02.example.com,A0:36:9F:7F:6A:C2,172.22.0.31,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-swift
-    744827-object03.example.com,A0:36:9F:82:8C:E3,172.22.0.32,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,ubuntu-14.04.3-server-unattended-osic-swift
+    744800-infra01.example.com,A0:36:9F:7F:70:C0,172.22.0.23,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-generic,10.15.243.158
+    744819-infra02.example.com,A0:36:9F:7F:6A:C8,172.22.0.24,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-generic,10.15.243.157
+    744820-infra03.example.com,A0:36:9F:82:8C:E8,172.22.0.25,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-generic,10.15.243.156
+    744821-monitoring01.example.com,A0:36:9F:82:8C:E9,172.22.0.26,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-generic,10.15.243.155
+    744822-compute01.example.com,A0:36:9F:82:8C:EA,172.22.0.27,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-generic,10.15.243.152
+    744823-compute02.example.com,A0:36:9F:82:8C:EB,172.22.0.28,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-generic,10.15.243.151
+    744824-cinder01.example.com,A0:36:9F:82:8C:EC,172.22.0.29,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-cinder,10.15.243.144
+    744825-object01.example.com,A0:36:9F:7F:70:C1,172.22.0.30,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-swift,10.15.243.141
+    744826-object02.example.com,A0:36:9F:7F:6A:C2,172.22.0.31,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-swift,10.15.243.140
+    744827-object03.example.com,A0:36:9F:82:8C:E3,172.22.0.32,255.255.252.0,172.22.0.1,8.8.8.8,bond0,ubuntu-14.04.3-server-unattended-osic-swift,10.15.243.139
     ```
     To do just that, the following script will loop through each iLO IP address in __ilo.csv__ to obtain the MAC address of the network interface configured to PXE boot and setup rest of information as well as shown above:
     __NOTE:__ make sure to Set COUNT to the first usable address after deployment host and container (ex. If you use .2 and .3 for deployment and container, start with .4 controller1) and make sure to change __host-ip,host-netmask,host-gateway__ in the script (__172.22.0.$COUNT,255.255.252.0,172.22.0.1__) to match your PXE network configurations. If you later discover that you have configured the wrong ips here, you need to restart from this point.
 
 ```
-COUNT=23
+COUNT=58
 for i in $(cat ilo.csv)
 do
     NAME=`echo $i | cut -d',' -f1`
@@ -343,10 +343,9 @@ do
         SEED='ubuntu-14.04.3-server-unattended-osic-generic'
             ;;
     esac
-    MAC=`sshpass -p calvincalvin ssh -o StrictHostKeyChecking=no root@$IP show /system1/network1/Integrated_NICs | grep Port1 | cut -d'=' -f2`
-    #hostname,mac-address,host-ip,host-netmask,host-gateway,dns,pxe-interface,cobbler-profile
-    echo "$NAME,${MAC//[$'\t\r\n ']},172.22.0.$COUNT,255.255.252.0,172.22.0.1,8.8.8.8,p1p1,$SEED" | tee -a input.csv
-
+    MAC=`sshpass -p cobbler ssh -o StrictHostKeyChecking=no root@$IP ifconfig -a bond0 | awk 'BEGIN{ FS="HWaddr "}{print$2}' | tr -d " \t\n\r"`
+    #hostname,mac-address,host-ip,host-netmask,host-gateway,dns,pxe-interface,cobbler-profile,ironic-ipv4
+    echo "$NAME,${MAC//[$'\t\r\n ']},172.22.0.$COUNT,255.255.252.0,172.22.0.1,8.8.8.8,bond0,$SEED,$IP" | tee -a input.csv
     (( COUNT++ ))
 done
 ```
