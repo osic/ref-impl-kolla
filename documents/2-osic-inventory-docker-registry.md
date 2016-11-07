@@ -10,9 +10,9 @@ target hosts used for deployment.
 
 Start by running the `generate_ansible_hosts.py` Python script:
 
-    cd /root/rpc-prep-scripts
+    cd /opt/ref-impl-kolla
 
-    python generate_ansible_hosts.py /root/input.csv > /root/osic-prep-ansible/hosts
+    python generate_ansible_hosts.py input.csv > hosts
 
 If this will be an openstack-kolla installation, organize the Ansible __hosts__ file into groups for __controller__, __monitoring__, __compute__, __storage__, and __network__, otherwise leave the Ansible __hosts__ file as it is and jump to the next section.
 
@@ -40,7 +40,7 @@ An example for openstack-kolla installation:
 
 The LXC container will not have all of the new server's SSH fingerprints in its __known_hosts__ file. This is needed to bypass prompts and create a silent login when SSHing to servers. Programatically add them by running the following command:
 
-    for i in $(cat /root/osic-prep-ansible/hosts | awk /ansible_ssh_host/ | cut -d'=' -f2)
+    for i in $(cat hosts | awk /ansible_ssh_host/ | cut -d'=' -f2 | cut -d ' ' -f1)
     do
     ssh-keygen -R $i
     ssh-keyscan -H $i >> /root/.ssh/known_hosts
