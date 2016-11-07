@@ -5,14 +5,16 @@ A.) Generating multinode host inventory
 ----------------------------------------
 
 When all servers finish PXE booting, you will now need to generate the multinode inventory which will contain the list of
-target hosts used for deployment.
+target hosts used for deployment. 
 ##### Step 1: Generate hosts file
 
 Start by running the `generate_ansible_hosts.py` Python script:
+   
+    git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
 
     cd /opt/ref-impl-kolla
 
-    python generate_ansible_hosts.py input.csv > hosts
+    python scripts/generate_ansible_hosts.py input.csv > hosts
 
 If this will be an openstack-kolla installation, organize the Ansible __hosts__ file into groups for __controller__, __monitoring__, __compute__, __storage__, and __network__, otherwise leave the Ansible __hosts__ file as it is and jump to the next section.
 
@@ -52,17 +54,7 @@ Verify Ansible can talk to every server (the password is __cobbler__):
     sudo apt-get install -y ansible
     ansible -i hosts all -m shell -a "uptime" --ask-pass
 
-##### Step 3: Setup SSH Public Keys
-
-Generate an SSH key pair for the LXC container:
-
-    ssh-keygen
-
-Copy the LXC container's SSH public key to the __osic-prep-ansible__ directory:
-
-    cp /root/.ssh/id_rsa.pub /root/osic-prep-ansible/playbooks/files/public_keys/osic-prep
-
-##### Step 4: Clone the Openstack Kolla repository.
+##### Step 3: Clone the Openstack Kolla repository.
 
 
 ```shell
@@ -70,9 +62,10 @@ cd /root/
 git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
 ```
 
-##### Step 5: Copy the contents of hosts file generated in step 1 to multinode inventory.
+##### Step 4: Copy the contents of hosts file generated in step 1 to multinode inventory.
 Replace each host group in the multinode inventory file located in `/opt/kolla/ansible/inventory/multinode`  with the one generated in the `hosts` file.
 
+The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`. 
 
 B.) Creating docker registry
 ----------------------------
@@ -91,8 +84,6 @@ apt-get update
 apt-get install linux-image-generic-lts-wily -y
 reboot
 ```
-
-
 
 ##### Step 3: Install docker on deployment host.
 
