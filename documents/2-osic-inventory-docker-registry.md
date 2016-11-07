@@ -72,17 +72,17 @@ Every server in the OSIC RAX Cluster is running two Intel X710 10 GbE NICs. Thes
 
 In order to get around this, you must install an updated Linux kernel.
 
-You can do this by running the following commands:
+You can do this by running the following commands(the password is __cobbler__):
 
     cd /root/osic-prep-ansible
 
-    ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-generic-lts-xenial" --forks 25
+    ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-image-generic-lts-wily" --forks 25 --ask-pass
 
 ##### Step 5: Reboot Nodes
 
-Finally, reboot all servers:
+Finally, reboot all servers(the password is __cobbler__):
 
-    ansible -i hosts all -m shell -a "reboot" --forks 25
+    ansible -i hosts all -m shell -a "reboot" --forks 25 --ask-pass
 
 Once all servers reboot, you can begin installing openstack-ansible.
 
@@ -90,6 +90,7 @@ Once all servers reboot, you can begin installing openstack-ansible.
 ----------------------------
 
 Openstack Kolla uses docker images to install OpenStack services. For multinode deployment, Openstack kolla uses the docker registry running on the deployment host to pull images and create containers. The following steps should be performed on the deployment host:
+__If you are still in the osic-prep container, exit to the host__.
 
 ##### Step 1:  Get information on the newest versions of packages and their dependencies:
 
