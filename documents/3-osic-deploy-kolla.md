@@ -134,25 +134,25 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 cd /opt/kolla
 ```
 
-2.) Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (Enter password as: cobbler):
+2.) Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/prechecks.yml --ask-pass
 ```
 
-3.) Pull all images for containers (Enter password as: cobbler):
+3.) Pull all images for containers (the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=pull /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-4.) Deploy Openstack services (Enter password as: cobbler):
+4.) Deploy Openstack services (the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-5.) Create Openstack rc file on deployment node (generated in /etc/kolla)(Enter password as: cobbler):
+5.) Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/post-deploy.yml --ask-pass
