@@ -21,9 +21,47 @@ By end of this chapter, keeping current configurations you will have an OpenStac
 
 The first step would be to certain dependecies that would aid in the entire deployment process
 
+
 __Note:__ If you are in osic-prep-container exit and return back to your host.
 
-1.) Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
+1.) Clone the Openstack Kolla repository.
+
+
+```shell
+cd /root/
+git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
+```
+
+2.) Copy the contents of hosts file generated in Part 2 to multinode inventory.
+
+```shell
+cp /var/lib/lxc/osic-prep/rootfs/root/osic-prep-ansible/hosts /opt/ref-impl-kolla/inventory/
+```
+
+__Replace each host group in the multinode inventory file located in `/opt/kolla/ansible/inventory/multinode`  with the one generated in the `hosts` file located at /opt/ref-impl-kolla/inventory/hosts.__
+
+__The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`.__
+
+3.) Include the deployment host in the host file __/opt/ref-impl-kolla/inventory/hosts__  as follows: (172.22.0.21 should be changed to you deployment PXE address)
+
+    [deploy]
+    729429-deploy01 ansible_ssh_host=172.22.0.21 ansible_ssh_host_ironic=10.3.72.3
+    
+4.) Copy the pair of public/private key used in the osic-prep container in /root/.ssh/ directory:
+
+    cp /var/lib/lxc/osic-prep/rootfs/root/.ssh/id_rsa* /root/.ssh/
+
+
+5.) Copy all of the servers SSH fingerprints from the LXC container osic-prep known_hosts file.
+
+    cp /var/lib/lxc/osic-prep/rootfs/root/.ssh/known_hosts /root/.ssh/known_hosts
+    
+
+6.) Copy public key to authorized_key file in deployment host to allow ssh locally
+
+    cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
+
+7.) Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
 
 ```shell
 #Python and python-pip
@@ -42,21 +80,21 @@ python setup.py install
 
 ```
 
-2.) Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
+8.) Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
 
 ```shell
 #For purpose of simplicity we will be forcing docker to build openstack images on top of latest ubuntu installed from source with tag version 3.0.0:
 kolla-build --registry localhost:4000 --base ubuntu --type source --tag 3.0.0 --push
 ```
 
-3.) Copy the contents of the /opt/kolla/etc/kolla directory into /etc/. This directory contains the required configuration needed for kolla deployment.
+9.) Copy the contents of the /opt/kolla/etc/kolla directory into /etc/. This directory contains the required configuration needed for kolla deployment.
 
 ```shell
 cp -r /opt/kolla/etc/kolla /etc/
 GLOBALS_FILE=/etc/kolla/globals.yml
 ```
 
-4.) You need to configure the globals.yaml file based on the deployment environment:
+10.) You need to configure the globals.yaml file based on the deployment environment:
 
 ```shell
 #Change the kolla_base_distro and kolla_install_type to match the type of docker images build in step 4.
@@ -86,41 +124,19 @@ sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FIL
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
 ```
 
-5.) Generate passwords for individual openstack services:
+11.) Generate passwords for individual openstack services:
 
 ```shell
 #Generate Passwords
 kolla-genpwd
+
 #Check passwords.yaml to view passwords.
 vi /etc/kolla/passwords.yaml
 ```
 
 #### Step 2: Bootstrap Servers:
 
-1.) Update Linux Kernel of Target hosts:
-
-Every server in the OSIC RAX Cluster is running two Intel X710 10 GbE NICs. These NICs have not been well tested in Ubuntu and as such the upstream i40e driver in the default 14.04.3 Linux kernel will begin showing issues when you setup VLAN tagged interfaces and bridges.
-
-In order to get around this, you must install an updated Linux kernel.
-
-You can do this by running the following commands:
-
-```shell
-cd /root/osic-prep-ansible
-ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-generic-lts-xenial" --forks 25
-```
-
-2.) Reboot Nodes to reflect kernel changes:
-
-Finally, reboot all servers:
-
-```shell
-ansible -i hosts all -m shell -a "reboot" --forks 25
-```
-
-Once all servers reboot, you can begin installing openstack-ansible.
-
-3.) Bootstrap target host:
+Execute the following command to bootstrap target hosts:
 
 ```shell
 cd /opt/kolla
