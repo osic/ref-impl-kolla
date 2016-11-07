@@ -64,6 +64,8 @@ __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/m
 7.) Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
 
 ```shell
+cd /opt/kolla
+
 #Python and python-pip
 apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
     
@@ -75,7 +77,6 @@ pip install -r requirements.txt -r test-requirements.txt
 pip install -U docker-py
 
 #Install kolla wrapper from source:
-cd /opt/kolla
 python setup.py install
 
 ```
@@ -84,6 +85,7 @@ python setup.py install
 
 ```shell
 #For purpose of simplicity we will be forcing docker to build openstack images on top of latest ubuntu installed from source with tag version 3.0.0:
+tmux
 kolla-build --registry localhost:4000 --base ubuntu --type source --tag 3.0.0 --push
 ```
 
@@ -101,19 +103,23 @@ GLOBALS_FILE=/etc/kolla/globals.yml
 sudo sed -i 's/^#kolla_base_distro.*/kolla_base_distro: "ubuntu"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_install_type.*/kolla_install_type: "source"/' $GLOBALS_FILE
 
+#Change the Openstack release tag:
+sudo sed -i 's/^#openstack_release:.*/#openstack_release: "3.0.0"/' $GLOBALS_FILE
+
 #Use an unused IP on your network as the internal and external vip address.
 INTERNAL_IP=""
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
-sudo sed -i 's/^kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
+sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
 #Kolla requires atleast two interfaces: one as network interface for api, storage, cluster and tunnel and other as external port for neutron interface:
-
+FIRST_INTERFACE="bond0"
+SECOND_INTERFACE="bond1"
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
 
 #In case of multinode deployment, the deployment host must inform all nodes information about the docker registry:
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
-sudo sed -i 's/#docker_registry.*/docker_registry: '${registry_host}'/g' $GLOBALS_FILE
+sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLOBALS_FILE
 
 #Enable required OpenStack Services
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
@@ -131,15 +137,25 @@ sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/
 kolla-genpwd
 
 #Check passwords.yaml to view passwords.
-vi /etc/kolla/passwords.yaml
+vi /etc/kolla/passwords.yml 
 ```
 
 #### Step 2: Bootstrap Servers:
 
 Execute the following command to bootstrap target hosts:
+This will install all the required packages in target hosts.
 
 ```shell
 cd /opt/kolla
+
+#Install Ansible version 2.2
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+ansible --version
+
+#Bootstrap servers:
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
