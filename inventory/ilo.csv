@@ -1,0 +1,10 @@
+729427-controller01,10.3.72.134,controller
+729426-controller02,10.3.72.135,controller
+729425-monitroing01,10.3.72.136,monitoring
+729424-compute01,10.3.72.137,compute
+729423-compute02,10.3.72.138,compute
+729422-compute03,10.3.72.139,compute
+729421-network01,10.3.72.140,network
+729420-storage01,10.3.72.141,storage
+729419-storage02,10.3.72.142,storage
+729418-storage03,10.3.72.143,storage

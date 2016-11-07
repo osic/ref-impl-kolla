@@ -1,0 +1,44 @@
+auto lo
+iface lo inet loopback
+
+auto p2p1
+iface p2p1 inet manual
+      bond-master bond0
+      bond-primary p2p1
+
+auto p2p2
+iface p2p2 inet manual
+      bond-master bond1
+      bond-primary p2p2
+
+auto p1p1
+iface p1p1 inet manual
+      bond-master bond0
+
+auto p1p2
+iface p1p2 inet manual
+      bond-master bond1
+
+auto bond0
+iface bond0 inet manual
+      bond-slaves p2p1 p1p1
+      bond-mode active-backup
+      bond-miimon 100
+      bond-downdelay 200
+      bond-updelay 200
+      post-up post-up ip addr add {{ ansible_ssh_host }}/22 dev bond0
+      dns-namservers 8.8.8.8 8.8.4.4
+    
+auto bond1
+iface bond1 inet manual
+      bond-slaves p2p2 p1p2
+      bond-mode active-backup
+      bond-miimon 100
+      bond-downdelay 250
+      bond-updelay 250
+
+auto bond0.200
+iface bond0.200 inet static
+      address {{ ansible_ssh_host_ironic }}
+      netmask 255.255.248.0
+      gateway 10.3.72.1

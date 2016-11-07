@@ -1,0 +1,9 @@
+729427-controller01,3c:fd:fe:9c:a7:98,172.22.0.58,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.134
+729426-controller02,3c:fd:fe:9c:a7:7c,172.22.0.59,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.135
+729425-monitroing01,3c:fd:fe:9c:b5:18,172.22.0.60,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.136
+729424-compute01,3c:fd:fe:9c:ae:40,172.22.0.61,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.137
+729423-compute02,3c:fd:fe:9c:b1:5c,172.22.0.62,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.138
+729422-compute03,3c:fd:fe:9c:a7:94,172.22.0.63,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.139
+729421-storage01,3c:fd:fe:9c:a9:e4,172.22.0.64,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.140
+729419-storage02,3c:fd:fe:9c:ab:40,172.22.0.66,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.142
+729418-storage03,3c:fd:fe:9c:ac:14,172.22.0.67,255.255.252.0,172.22.0.1,8.8.8.8,p2p1,ubuntu-14.04.3-server-unattended-osic-generic,10.3.72.143

@@ -1,0 +1,49 @@
+---
+- name: Create network interfaces file
+  hosts: 'all'
+  remote_user: root
+  become: yes
+
+  tasks:
+  - name: make host ip static
+    template:
+      src: templates/interfaces.cfg.j2
+      dest: /etc/network/interfaces
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Ensure files in interfaces.d are loaded
+    lineinfile:
+      dest: /etc/network/interfaces
+      state: present
+      line: 'source /etc/network/interfaces.d/*.cfg'
+      insertafter: 'For more information'
+
+  - name: Create os-refimpl-devices.cfg
+    template:
+      src: templates/os-refimpl-devices.cfg.j2
+      dest: /etc/network/interfaces.d/os-refimpl-devices.cfg
+      owner: root
+      group: root
+      mode: 0644
+  - name: Bring up the interfaces
+    shell: ifup p1p2 && ifup p1p1 && ifdown p1p1 && ifup p2p2 && ifup bond1 && ifup bond0 && ifup p1p1 && ifup bond0.200 
+  - name: Add address to bond0
+    command: ip addr add {{ ansible_ssh_host }}/22 dev bond0
+  - name: Add default route
+    command: route add default gw 10.3.72.1 bond0.200
+  
+#- name: reboot servers except deployment
+#  hosts: 'all:!deploy'
+#  remote_user: root
+#  become: yes
+#  tasks:
+#  - command: reboot
+
+#- name: reboot deployment host
+#  hosts: 'deploy'
+#  remote_user: root
+#  become: yes
+#  tasks:
+#  - command: reboot
