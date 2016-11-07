@@ -113,6 +113,20 @@ curl -sSL https://get.docker.io | bash
 
 # Check Docker version (should be >= 1.10.0)
 docker --version
+
+# Create the drop-in unit directory for docker.service
+mkdir -p /etc/systemd/system/docker.service.d
+
+# Create the drop-in unit file
+tee /etc/systemd/system/docker.service.d/kolla.conf <<-'EOF'
+[Service]
+MountFlags=shared
+EOF
+service docker restart
+mount --make-shared /run
+
+#For mounting /run as shared upon startup, add that command to /etc/rc.local:
+mount --make-shared /run
 ```
 
 ##### Step 4: Create Docker Regsistry.
