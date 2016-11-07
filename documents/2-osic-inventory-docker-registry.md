@@ -79,7 +79,22 @@ B.) Creating docker registry
 
 Openstack Kolla uses docker images to install OpenStack services. For multinode deployment, Openstack kolla uses the docker registry running on the deployment host to pull images and create containers. The following steps should be performed on the deployment host:
 
-##### Step 1: Install docker on deployment host.
+##### Step 1:  Get information on the newest versions of packages and their dependencies:
+
+```shell
+apt-get update
+```
+
+##### Step 2: For Ubuntu based systems where Docker is used it is recommended to use the latest available LTS kernel. The latest LTS kernel available is the wily kernel (version 4.2). While all kernels should work for Docker, some older kernels may have issues with some of the different Docker backends such as AUFS and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
+
+```shell
+apt-get install linux-image-generic-lts-wily -y
+reboot
+```
+
+
+
+##### Step 3: Install docker on deployment host.
 
 ```shell
 # Install Docker
@@ -89,25 +104,25 @@ curl -sSL https://get.docker.io | bash
 docker --version
 ```
 
-##### Step 2: Create Docker Regsistry.
+##### Step 4: Create Docker Regsistry.
 
 ```shell
 docker run -d -p 4000:5000 --restart=always --name registry registry:2
 ```
 
-##### Step 2: Check whether Ubuntu is using systemd or upstart.
+##### Step 5: Check whether Ubuntu is using systemd or upstart.
 
 ```shell
 stat /proc/1/exe
 ```
 
-##### Step 3: Edit default docker configuration to point to newly created registry.
+##### Step 6: Edit default docker configuration to point to newly created registry.
 
 ```shell
 echo "DOCKER_OPTS=\"--insecure-registry `hostname -I | cut -d ' ' -f 1`:4000\"" >> /etc/default/docker
 ```
 
-##### Step 4: If Ubuntu is using systemd, additional settings needs to be configured. 
+##### Step 7: If Ubuntu is using systemd, additional settings needs to be configured. 
 
 ```shell
 # Copy docker’s systemd unit file to /etc/systemd/system/ directory.
@@ -118,7 +133,7 @@ EnvironmentFile=-/etc/default/docker
 ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
 ```
 
-##### Step 5: Restart docker by executing the following commands.
+##### Step 8: Restart docker by executing the following commands.
 
 ```shell
 sudo service docker restart
