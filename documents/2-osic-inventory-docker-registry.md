@@ -53,21 +53,40 @@ Verify Ansible can talk to every server (the password is __cobbler__):
     cd /root/osic-prep-ansible
     sudo apt-get install -y ansible
     ansible -i hosts all -m shell -a "uptime" --ask-pass
+    
 
-##### Step 3: Clone the Openstack Kolla repository.
 
+##### Step 3: Setup SSH Public Keys
 
-```shell
-cd /root/
-git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
-```
+Generate an SSH key pair for the LXC container:
 
-##### Step 4: Copy the contents of hosts file generated in step 1 to multinode inventory.
-Replace each host group in the multinode inventory file located in `/opt/kolla/ansible/inventory/multinode`  with the one generated in the `hosts` file.
+    ssh-keygen
 
-The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`. 
+Copy the LXC container's SSH public key to the __osic-prep-ansible__ directory:
 
-B.) Creating docker registry
+    cp /root/.ssh/id_rsa.pub /root/osic-prep-ansible/playbooks/files/public_keys/osic-prep
+
+##### Step 4: Update Linux Kernel
+
+Every server in the OSIC RAX Cluster is running two Intel X710 10 GbE NICs. These NICs have not been well tested in Ubuntu and as such the upstream i40e driver in the default 14.04.3 Linux kernel will begin showing issues when you setup VLAN tagged interfaces and bridges.
+
+In order to get around this, you must install an updated Linux kernel.
+
+You can do this by running the following commands:
+
+    cd /root/osic-prep-ansible
+
+    ansible -i hosts all -m shell -a "apt-get update; apt-get install -y linux-generic-lts-xenial" --forks 25
+
+##### Step 5: Reboot Nodes
+
+Finally, reboot all servers:
+
+    ansible -i hosts all -m shell -a "reboot" --forks 25
+
+Once all servers reboot, you can begin installing openstack-ansible.
+
+ B.) Creating docker registry
 ----------------------------
 
 Openstack Kolla uses docker images to install OpenStack services. For multinode deployment, Openstack kolla uses the docker registry running on the deployment host to pull images and create containers. The following steps should be performed on the deployment host:
