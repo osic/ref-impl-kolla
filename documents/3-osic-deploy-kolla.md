@@ -24,11 +24,13 @@ The first step would be to certain dependecies that would aid in the entire depl
 
 __Note:__ If you are in osic-prep-container exit and return back to your host.
 
-1.) Clone the Openstack Kolla repository.
+1.) Clone the Openstack Kolla and ref-impl-kolla repository.
 
 
 ```shell
 cd /root/
+git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
+
 git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
 ```
 
