@@ -14,7 +14,7 @@ Start by running the `generate_ansible_hosts.py` Python script:
 
     cd /opt/ref-impl-kolla
 
-    python scripts/generate_ansible_hosts.py input.csv > hosts
+    python scripts/generate_ansible_hosts.py /root/input.csv > /root/osic-prep-ansible/hosts
 
 If this will be an openstack-kolla installation, organize the Ansible __hosts__ file into groups for __controller__, __monitoring__, __compute__, __storage__, and __network__, otherwise leave the Ansible __hosts__ file as it is and jump to the next section.
 
@@ -84,7 +84,16 @@ Finally, reboot all servers(the password is __cobbler__):
 
     ansible -i hosts all -m shell -a "reboot" --forks 25 --ask-pass
 
-Once all servers reboot, you can begin installing openstack-ansible.
+
+##### Step 6: Assign address to bond0 interface.
+
+After the target hosts are rebooted, you need to re-assign the IP addresses to the bond interface. To do that, simply copy the script `re-address.sh` in the same directory as `hosts` file and execute it.
+
+```shell
+cp /opt/ref-impl-koll/scripts/re-address.sh /root/osic-prep-ansible/
+./re-address.sh
+```
+Once all servers reboot and address re-assignment is done, you can begin creating Docker Registry.
 
  B.) Creating docker registry
 ----------------------------
