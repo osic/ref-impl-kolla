@@ -1,0 +1,14 @@
+---
+
+- name: Prepare node disks
+  hosts: storage
+  remote_user: root
+  become: yes
+  tasks:
+    - name: Install xfsprogs package
+      apt:
+        name: xfsprogs
+        state: present
+        update_cache: yes
+    - name: Run Script to create paritions
+      script: kolla-swift-prep.sh
