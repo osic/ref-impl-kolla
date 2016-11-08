@@ -186,7 +186,12 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 #### Step 3: Deploy Swift
 
 1.) Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
+dd disks present in storage nodes in `storage_nodes` file.
 ```shell
+#Add disks present in storage nodes in `disks.lst` file:
+vi /opt/ref-impl-kolla/scripts/disks.lst
+
+#Create parition KOLLA_SWIFT_DATA:
 ansible-playbook -i ansible/inventory/multinode kolla-swift-playbook.yaml --ask-pass
 ```
 
@@ -199,10 +204,14 @@ sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $
 
 3.) Create swift object, container and account rings on deployment node:
 ```shell
+#Add storage nodes IP address in `storage_nodes` file:
+vi /opt/ref-impl-kolla/scripts/storage_nodes
+
+#Create rings by running the `swift-prep-rings.sh`:
 ./scripts/swift-prep-rings.sh 
 ```
 
-4.) Check in /etc/kolla/config/swift whether the following ring files are present:
+4.) Ensure that the following ring files are present in `/etc/kolla/config/swift`:
 ```shell
 ls /etc/kolla/config/swift/
 account.builder  
