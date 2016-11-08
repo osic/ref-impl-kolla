@@ -1,5 +1,5 @@
 index=0
-readarray -t DISKS < disks.lst
+readarray -t $DISKS < disks.lst
 for d in DISKS; do
     parted /dev/${d} -s -- mklabel gpt mkpart KOLLA_SWIFT_DATA 1 -1
     sudo mkfs.xfs -f -L d${index} /dev/${d}1
