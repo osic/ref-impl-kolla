@@ -125,7 +125,6 @@ sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLO
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
-sudo sed -i 's/#enable_swift:.*/enable_swift: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
 ```
@@ -184,7 +183,45 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-5.) Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
+#### Step 3: Deploy Swift
+
+1.) Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
+```shell
+ansible-playbook -i ansible/inventory/multinode kolla-swift-playbook.yaml --ask-pass
+```
+
+2.) Enable Swift services and configure swift device names and matching mode:
+```shell
+sudo sed -i 's/#enable_swift:.*/enable_swift: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#swift_devices_match_mode:.*/swift_devices_match_mode: "strict"/' $GLOBALS_FILE
+sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $GLOBALS_FILE
+```
+
+3.) Create swift object, container and account rings on deployment node:
+```shell
+./scripts/swift-prep-rings.sh 
+```
+
+4.) Check in /etc/kolla/config/swift whether the following ring files are present:
+```shell
+ls /etc/kolla/config/swift/
+account.builder  
+backups            
+container.ring.gz  
+object.ring.gz
+account.ring.gz  
+container.builder  
+object.builder
+```
+
+5.) Deploy swift:
+```shell
+ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --tags=swift --ask-pass
+```
+
+
+#### Step 4: Create Openstack RC:
+Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/post-deploy.yml --ask-pass
