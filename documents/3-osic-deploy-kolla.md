@@ -183,7 +183,7 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-#### Step 3: Deploy Swift
+#### Step 4: Deploy Swift
 
 1.) Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
 dd disks present in storage nodes in `storage_nodes` file.
@@ -229,7 +229,7 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ```
 
 
-#### Step 4: Create Openstack RC:
+#### Step 5: Create Openstack RC:
 Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
 
 ```shell
