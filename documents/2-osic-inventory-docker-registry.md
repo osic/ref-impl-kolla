@@ -99,7 +99,8 @@ Once all servers reboot and address re-assignment is done, you can begin creatin
 ----------------------------
 
 Openstack Kolla uses docker images to install OpenStack services. For multinode deployment, Openstack kolla uses the docker registry running on the deployment host to pull images and create containers. The following steps should be performed on the deployment host:
-__If you are still in the osic-prep container, exit to the host__.
+
+__Note: If you are still in the osic-prep container, exit to the host__.
 
 ##### Step 1:  Get information on the newest versions of packages and their dependencies:
 
