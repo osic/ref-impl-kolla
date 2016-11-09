@@ -17,8 +17,8 @@ By end of this chapter, keeping current configurations you will have an OpenStac
 - network hosts.
 - storage hosts.
 
-A.): Prepare Deployment Host
-----------------------------
+A.) Prepare Deployment Host
+---------------------------
 
 The first step would be to certain dependecies that would aid in the entire deployment process
 
