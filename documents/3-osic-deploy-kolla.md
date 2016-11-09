@@ -153,14 +153,16 @@ This will install all the required packages in target hosts.
 ```shell
 cd /opt/kolla
 
-#Install Ansible version 2.2
+# Install Ansible version 2.2
 sudo apt-get install software-properties-common
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible
+
+# Ensure that ansible version > 2.0
 ansible --version
 
-#Bootstrap servers:
+# Bootstrap servers:
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
