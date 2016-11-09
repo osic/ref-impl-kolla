@@ -17,14 +17,15 @@ By end of this chapter, keeping current configurations you will have an OpenStac
 - network hosts.
 - storage hosts.
 
-#### Step 1: Prepare Deployment Host
+A.): Prepare Deployment Host
+----------------------------
 
 The first step would be to certain dependecies that would aid in the entire deployment process
 
 
 __Note:__ If you are in osic-prep-container exit and return back to your host.
 
-1.) Clone the Openstack Kolla and ref-impl-kolla repository.
+##### Step 1: Clone the Openstack Kolla and ref-impl-kolla repository.
 
 
 ```shell
@@ -34,7 +35,7 @@ git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
 git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
 ```
 
-2.) Copy the contents of hosts file generated in Part 2 to multinode inventory.
+##### Step 2: Copy the contents of hosts file generated in Part 2 to multinode inventory.
 
 ```shell
 cp /var/lib/lxc/osic-prep/rootfs/root/osic-prep-ansible/hosts /opt/ref-impl-kolla/inventory/
@@ -44,26 +45,26 @@ __Replace each host group in the multinode inventory file located in `/opt/kolla
 
 __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`.__
 
-3.) Include the deployment host in the host file __/opt/ref-impl-kolla/inventory/hosts__  as follows: (172.22.0.21 should be changed to you deployment PXE address)
+##### Step 3: Include the deployment host in the host file __/opt/ref-impl-kolla/inventory/hosts__  as follows: (172.22.0.21 should be changed to you deployment PXE address)
 
     [deploy]
     729429-deploy01 ansible_ssh_host=172.22.0.21 ansible_ssh_host_ironic=10.3.72.3
     
-4.) Copy the pair of public/private key used in the osic-prep container in /root/.ssh/ directory:
+##### Step 4: Copy the pair of public/private key used in the osic-prep container in /root/.ssh/ directory:
 
     cp /var/lib/lxc/osic-prep/rootfs/root/.ssh/id_rsa* /root/.ssh/
 
 
-5.) Copy all of the servers SSH fingerprints from the LXC container osic-prep known_hosts file.
+##### Step 5: Copy all of the servers SSH fingerprints from the LXC container osic-prep known_hosts file.
 
     cp /var/lib/lxc/osic-prep/rootfs/root/.ssh/known_hosts /root/.ssh/known_hosts
     
 
-6.) Copy public key to authorized_key file in deployment host to allow ssh locally
+##### Step 6: Copy public key to authorized_key file in deployment host to allow ssh locally
 
     cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
 
-7.) Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
+##### Step 7: Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
 
 ```shell
 cd /opt/kolla
@@ -83,7 +84,7 @@ python setup.py install
 
 ```
 
-8.) Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
+##### Step 8: Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
 
 ```shell
 #For purpose of simplicity we will be forcing docker to build openstack images on top of latest ubuntu installed from source with tag version 3.0.0:
@@ -91,14 +92,14 @@ tmux
 kolla-build --registry localhost:4000 --base ubuntu --type source --tag 3.0.0 --push
 ```
 
-9.) Copy the contents of the /opt/kolla/etc/kolla directory into /etc/. This directory contains the required configuration needed for kolla deployment.
+##### Step 9: Copy the contents of the /opt/kolla/etc/kolla directory into /etc/. This directory contains the required configuration needed for kolla deployment.
 
 ```shell
 cp -r /opt/kolla/etc/kolla /etc/
 GLOBALS_FILE=/etc/kolla/globals.yml
 ```
 
-10.) You need to configure the globals.yaml file based on the deployment environment:
+##### Step 10: You need to configure the globals.yaml file based on the deployment environment:
 
 ```shell
 #Change the kolla_base_distro and kolla_install_type to match the type of docker images build in step 4.
@@ -127,12 +128,13 @@ sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLO
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
+
+#Enable backend for Cinder and Glance
 sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
 ```
 
-11.) Generate passwords for individual openstack services:
-
+##### Step 11: Generate passwords for individual openstack services:
 ```shell
 #Generate Passwords
 kolla-genpwd
@@ -141,7 +143,8 @@ kolla-genpwd
 vi /etc/kolla/passwords.yml 
 ```
 
-#### Step 2: Bootstrap Servers:
+B.) Bootstrap Servers
+----------------------
 
 Execute the following command to bootstrap target hosts:
 This will install all the required packages in target hosts.
@@ -160,34 +163,37 @@ ansible --version
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
-#### Step 3: Deploy Kolla
-1.) Switch to Kolla Directory
+C.) Deploy Kolla
+----------------
+
+##### Step 1: Switch to Kolla Directory
 
 ```shell
 cd /opt/kolla
 ```
 
-2.) Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (the password is __cobbler__):
+##### Step 2: Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/prechecks.yml --ask-pass
 ```
 
-3.) Pull all images for containers (the password is __cobbler__):
+##### Step 3: Pull all images for containers (the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=pull /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-4.) Deploy Openstack services (the password is __cobbler__):
+##### Step 4: Deploy Openstack services (the password is __cobbler__):
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-#### Step 4: Deploy Swift
+D.) Deploy Swift
+----------------
 
-1.) Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
+##### Step 1: Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
 dd disks present in storage nodes in `storage_nodes` file.
 ```shell
 #Add disks present in storage nodes in `disks.lst` file:
@@ -197,14 +203,14 @@ vi /opt/ref-impl-kolla/scripts/disks.lst
 ansible-playbook -i ansible/inventory/multinode kolla-swift-playbook.yaml --ask-pass
 ```
 
-2.) Enable Swift services and configure swift device names and matching mode:
+##### Step 2: Enable Swift services and configure swift device names and matching mode:
 ```shell
 sudo sed -i 's/#enable_swift:.*/enable_swift: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#swift_devices_match_mode:.*/swift_devices_match_mode: "strict"/' $GLOBALS_FILE
 sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $GLOBALS_FILE
 ```
 
-3.) Create swift object, container and account rings on deployment node:
+##### Step 3: Create swift object, container and account rings on deployment node:
 ```shell
 #Add storage nodes IP address in `storage_nodes` file:
 vi /opt/ref-impl-kolla/scripts/storage_nodes
@@ -213,7 +219,7 @@ vi /opt/ref-impl-kolla/scripts/storage_nodes
 ./scripts/swift-prep-rings.sh 
 ```
 
-4.) Ensure that the following ring files are present in `/etc/kolla/config/swift`:
+##### Step 4: Ensure that the following ring files are present in `/etc/kolla/config/swift`:
 ```shell
 ls /etc/kolla/config/swift/
 account.builder  
@@ -231,7 +237,9 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ```
 
 
-#### Step 5: Create Openstack RC:
+E.) Create Openstack RC
+-----------------------
+
 Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
 
 ```shell
