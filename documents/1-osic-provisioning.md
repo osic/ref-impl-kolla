@@ -88,6 +88,8 @@ You will need to update the Linux kernel on the deployment host in order to get 
 
 When the update finishes running, __reboot__ the server and proceed with the rest of the guide.
 
+[Top](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#overview)
+
 Download and Setup the osic-prep LXC Container
 ----------------------------------------------
 
@@ -239,7 +241,7 @@ There are a few configuration changes that need to be made to the pre-packaged L
     
 5. At this point you can PXE boot any servers, but it is still a manual process. In order for it to be an automated process, a CSV file needs to be created.
 
-                                                                                                       [Top](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#overview)
+[Top](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#overview)
 
 PXE Boot the Servers
 --------------------
