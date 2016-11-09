@@ -11,4 +11,4 @@
         state: present
         update_cache: yes
     - name: Run Script to create paritions
-      script: kolla-swift-prep.sh
+      script: swift-prep-disks.sh
