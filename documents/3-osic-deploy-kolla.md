@@ -114,7 +114,8 @@ INTERNAL_IP=""
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
-#Kolla requires atleast two interfaces: one as network interface for api, storage, cluster and tunnel and other as external port for neutron interface:
+#Kolla requires atleast two interfaces: one as network interface for api, storage, cluster and tunnel 
+#and other as external port for neutron interface:
 FIRST_INTERFACE="bond0"
 SECOND_INTERFACE="bond1"
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
