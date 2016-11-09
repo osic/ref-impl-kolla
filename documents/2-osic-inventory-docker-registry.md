@@ -174,4 +174,4 @@ ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
 sudo service docker restart
 ```
 
-You should have successfully created docker registry on your deployment host. Next step is to push docker images in registry.
+You should have successfully created docker registry on your deployment host. Next step is to deploy Kolla on target nodes.
