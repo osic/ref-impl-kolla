@@ -21,22 +21,25 @@ If this will be an openstack-kolla installation, organize the Ansible __hosts__ 
 An example for openstack-kolla installation:
 
     [controller]
-    744800-infra01.example.com ansible_ssh_host=10.240.0.51
-    744819-infra02.example.com ansible_ssh_host=10.240.0.52
-    744820-infra03.example.com ansible_ssh_host=10.240.0.53
+    729427-controller01 ansible_ssh_host=172.22.0.58 ansible_ssh_host_ironic=10.3.72.134
+    729426-controller02 ansible_ssh_host=172.22.0.59 ansible_ssh_host_ironic=10.3.72.135
 
     [monitoring]
-    744821-logging01.example.com ansible_ssh_host=10.240.0.54
+    729425-monitroing01 ansible_ssh_host=172.22.0.60 ansible_ssh_host_ironic=10.3.72.136
+    729425-monitroing02 ansible_ssh_host=172.22.0.61 ansible_ssh_host_ironic=10.3.72.137
 
     [compute]
-    744822-compute01.example.com ansible_ssh_host=10.240.0.55
-    744823-compute02.example.com ansible_ssh_host=10.240.0.56
+    744822-compute01 ansible_ssh_host=172.22.0.62 ansible_ssh_host_ironic=10.3.72.138
+    744823-compute02 ansible_ssh_host=172.22.0.63 ansible_ssh_host_ironic=10.3.72.139
 
     [storage]
-    744824-cinder01.example.com ansible_ssh_host=10.240.0.57
-    744825-object01.example.com ansible_ssh_host=10.240.0.58
-    744826-object02.example.com ansible_ssh_host=10.240.0.59
-    744827-object03.example.com ansible_ssh_host=10.240.0.60
+    729421-storage01 ansible_ssh_host=172.22.0.64 ansible_ssh_host_ironic=10.3.72.140
+    729419-storage02 ansible_ssh_host=172.22.0.66 ansible_ssh_host_ironic=10.3.72.142
+    729418-storage03 ansible_ssh_host=172.22.0.67 ansible_ssh_host_ironic=10.3.72.143
+    
+    [networking]
+    729418-networking01 ansible_ssh_host=172.22.0.68 ansible_ssh_host_ironic=10.3.72.144
+
 
 ##### Step 2: Verify Connectivity
 
