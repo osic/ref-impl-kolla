@@ -82,6 +82,9 @@ pip install -U docker-py
 #Install kolla wrapper from source:
 python setup.py install
 
+#Add current hostname to /etc/hosts to avoid any DNS errors
+echo "`hostname -I | cut -d ' ' -f 1` $(hostname)" | sudo tee -a /etc/hosts %>/dev/null
+
 ```
 
 ##### Step 8: Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
@@ -129,10 +132,21 @@ sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLO
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#enable_ceph:.*/enable_ceph: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#enable_ceph_rgw:.*/enable_ceph_rgw: "yes"/' $GLOBALS_FILE
 
 #Enable backend for Cinder and Glance
 sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
+
+#Configure Ceph to use just one drive
+cat <<-EOF | sudo tee /etc/kolla/config/ceph.conf 
+[global]
+osd pool default size = 1
+osd pool default min size = 1
+EOF
+
+
 ```
 
 ##### Step 11: Generate passwords for individual openstack services:
