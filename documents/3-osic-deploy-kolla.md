@@ -85,7 +85,6 @@ echo "`hostname -I | cut -d ' ' -f 1` $(hostname)" | sudo tee -a /etc/hosts %>/d
 
 ```shell
 #For purpose of simplicity we will be forcing docker to build openstack images on top of latest ubuntu installed from source with tag version 3.0.0:
-tmux
 kolla-build --registry localhost:4000 --base ubuntu --type source --tag 3.0.0 --push
 ```
 
@@ -104,7 +103,7 @@ sudo sed -i 's/^#kolla_base_distro.*/kolla_base_distro: "ubuntu"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_install_type.*/kolla_install_type: "source"/' $GLOBALS_FILE
 
 #Change the Openstack release tag:
-sudo sed -i 's/^#openstack_release:.*/#openstack_release: "3.0.0"/' $GLOBALS_FILE
+sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 
 #Use an unused IP on your network as the internal and external vip address.
 INTERNAL_IP=""
@@ -188,11 +187,6 @@ cd /opt/kolla
 ```
 
 ##### Step 2: Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (the password is __cobbler__):
-
-```shell
-#Check status of Docker image build process by attaching back to the tmux session and wait until its finished
-tmux a
-```
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/prechecks.yml --ask-pass
