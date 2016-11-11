@@ -136,13 +136,6 @@ sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/
 mkdir -p /etc/kolla/config
 mkdir -p /etc/kolla/config/swift/backups
 
-#Configure Ceph to use just one drive
-cat <<-EOF | sudo tee /etc/kolla/config/ceph.conf 
-[global]
-osd pool default size = 1
-osd pool default min size = 1
-EOF
-
 # Use any one volume in your instance as a Ceph Bootstrap OSD:
 DISK=""
 sudo parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
