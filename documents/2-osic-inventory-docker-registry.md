@@ -115,6 +115,9 @@ apt-get update
 
 ```shell
 apt-get install linux-image-generic-lts-wily -y
+
+#Python and python-pip
+apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
 reboot
 ```
 
