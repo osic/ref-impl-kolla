@@ -135,15 +135,18 @@ sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/
 mkdir -p /etc/kolla/config
 mkdir -p /etc/kolla/config/swift/backups
 ```
-##### Step 11: Use any one volume in your instance as Ceph OSD drive.
 
-# Use any one volume in your instance as a Ceph Bootstrap OSD with:
-apt-get install xfsprogs
-DISK=""
-sudo parted /dev/$DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
+##### Step 11: Run playbook to create ceph bootstrap OSD:
+
+```shell
+#Add disks present in storage nodes in `disks.lst` file:
+vi /opt/ref-impl-kolla/scripts/disks.lst
+
+#Create parition KOLLA_CEPH_OSD_BOOTSTRAP:
+ansible-playbook -i ansible/inventory/multinode kolla-ceph-bootrstrap.yaml --ask-pass
 ```
 
-##### Step 11: Generate passwords for individual openstack services:
+##### Step 12: Generate passwords for individual openstack services:
 ```shell
 #Generate Passwords
 kolla-genpwd
@@ -242,7 +245,7 @@ container.builder
 object.builder
 ```
 
-5.) Deploy swift:
+##### Step 5: Deploy swift:
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --tags=swift --ask-pass
 ```
