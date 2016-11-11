@@ -110,14 +110,13 @@ INTERNAL_IP=""
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
-#Kolla requires atleast two interfaces: one as network interface for api, storage, cluster and tunnel 
-#and other as external port for neutron interface:
-FIRST_INTERFACE="bond0"
-SECOND_INTERFACE="bond1"
+#Kolla requires atleast two interfaces on Target Hosts: FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel. SECOND_INTERFACE which is used as external interface for neutron:
+FIRST_INTERFACE=<Target-host-interface-with-ip>
+SECOND_INTERFACE=<Target-host-interface-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
 
-#In case of multinode deployment, the deployment host must inform all nodes information about the docker registry:
+#In case of multinode deployment, the deployment host must provide information about the docker registry to the target hosts:
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
 sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLOBALS_FILE
 
@@ -132,7 +131,7 @@ sudo sed -i 's/#enable_ceph_rgw:.*/enable_ceph_rgw: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
 
-#Create Kolla Config Directory for storing config file for ceph, swift
+#Create Kolla Config Directory for storing config files for ceph, swift
 mkdir -p /etc/kolla/config
 mkdir -p /etc/kolla/config/swift/backups
 ```
