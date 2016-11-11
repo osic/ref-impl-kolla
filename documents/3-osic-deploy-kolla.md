@@ -72,9 +72,6 @@ cd /opt/kolla
 #Python and python-pip
 apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
     
-#Install Ansible to execute ansible-playbooks
-apt-get install -y ansible
-    
 #Install Dependencies
 pip install -r requirements.txt -r test-requirements.txt
 pip install -U docker-py
@@ -139,6 +136,10 @@ sudo sed -i 's/#enable_ceph_rgw:.*/enable_ceph_rgw: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
 
+#Create Kolla Config Directory for storing config file for ceph, swift
+mkdir -p /etc/kolla/config
+mkdir -p /etc/kolla/config/swift/backups
+
 #Configure Ceph to use just one drive
 cat <<-EOF | sudo tee /etc/kolla/config/ceph.conf 
 [global]
@@ -190,6 +191,11 @@ cd /opt/kolla
 ```
 
 ##### Step 2: Pre-deployment checks for hosts which includes the port scans and globals.yaml validation (the password is __cobbler__):
+
+```shell
+#Check status of Docker image build process by attaching back to the tmux session and wait until its finished
+tmux a
+```
 
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/prechecks.yml --ask-pass
