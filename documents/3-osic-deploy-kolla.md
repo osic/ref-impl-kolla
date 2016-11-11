@@ -29,7 +29,7 @@ __Note:__ If you are in osic-prep-container exit and return back to your host.
 
 
 ```shell
-cd /root/
+
 git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
 
 git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
@@ -68,12 +68,6 @@ __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/m
 
 ```shell
 cd /opt/kolla
-
-#Python and python-pip
-apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
-    
-#Install Ansible to execute ansible-playbooks
-apt-get install -y ansible
     
 #Install Dependencies
 pip install -r requirements.txt -r test-requirements.txt
@@ -91,7 +85,6 @@ echo "`hostname -I | cut -d ' ' -f 1` $(hostname)" | sudo tee -a /etc/hosts %>/d
 
 ```shell
 #For purpose of simplicity we will be forcing docker to build openstack images on top of latest ubuntu installed from source with tag version 3.0.0:
-tmux
 kolla-build --registry localhost:4000 --base ubuntu --type source --tag 3.0.0 --push
 ```
 
@@ -102,7 +95,7 @@ cp -r /opt/kolla/etc/kolla /etc/
 GLOBALS_FILE=/etc/kolla/globals.yml
 ```
 
-##### Step 10: You need to configure the globals.yaml file based on the deployment environment:
+##### Step 10: Execute the following commands which will configure the globals.yaml file. You need to make changes to the command based on the deployment environment:
 
 ```shell
 #Change the kolla_base_distro and kolla_install_type to match the type of docker images build in step 4.
@@ -110,21 +103,20 @@ sudo sed -i 's/^#kolla_base_distro.*/kolla_base_distro: "ubuntu"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_install_type.*/kolla_install_type: "source"/' $GLOBALS_FILE
 
 #Change the Openstack release tag:
-sudo sed -i 's/^#openstack_release:.*/#openstack_release: "3.0.0"/' $GLOBALS_FILE
+sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 
 #Use an unused IP on your network as the internal and external vip address.
 INTERNAL_IP=""
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
-#Kolla requires atleast two interfaces: one as network interface for api, storage, cluster and tunnel 
-#and other as external port for neutron interface:
-FIRST_INTERFACE="bond0"
-SECOND_INTERFACE="bond1"
+#Kolla requires atleast two interfaces on Target Hosts: FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel. SECOND_INTERFACE which is used as external interface for neutron:
+FIRST_INTERFACE=<Target-host-interface-with-ip>
+SECOND_INTERFACE=<Target-host-interface-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
 
-#In case of multinode deployment, the deployment host must inform all nodes information about the docker registry:
+#In case of multinode deployment, the deployment host must provide information about the docker registry to the target hosts:
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
 sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLOBALS_FILE
 
@@ -139,14 +131,16 @@ sudo sed -i 's/#enable_ceph_rgw:.*/enable_ceph_rgw: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
 
-#Configure Ceph to use just one drive
-cat <<-EOF | sudo tee /etc/kolla/config/ceph.conf 
-[global]
-osd pool default size = 1
-osd pool default min size = 1
-EOF
+#Create Kolla Config Directory for storing config files for ceph, swift
+mkdir -p /etc/kolla/config
+mkdir -p /etc/kolla/config/swift/backups
+```
+##### Step 11: Use any one volume in your instance as Ceph OSD drive.
 
-
+# Use any one volume in your instance as a Ceph Bootstrap OSD with:
+apt-get install xfsprogs
+DISK=""
+sudo parted /dev/$DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
 ```
 
 ##### Step 11: Generate passwords for individual openstack services:
