@@ -7,4 +7,3 @@ for d in ${DISKS[@]}; do
     sudo mkfs.xfs -f -L d${index} /dev/${d}1
     (( index++ ))
 done
-sudo parted /dev/${DISKS[0]} -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
