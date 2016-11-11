@@ -95,7 +95,7 @@ cp -r /opt/kolla/etc/kolla /etc/
 GLOBALS_FILE=/etc/kolla/globals.yml
 ```
 
-##### Step 10: You need to configure the globals.yaml file based on the deployment environment:
+##### Step 10: Execute the following commands which will configure the globals.yaml file. You need to make changes to the command based on the deployment environment:
 
 ```shell
 #Change the kolla_base_distro and kolla_install_type to match the type of docker images build in step 4.
@@ -138,6 +138,7 @@ mkdir -p /etc/kolla/config/swift/backups
 ##### Step 11: Use any one volume in your instance as Ceph OSD drive.
 
 # Use any one volume in your instance as a Ceph Bootstrap OSD with:
+apt-get install xfsprogs
 DISK=""
 sudo parted /dev/$DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
 ```
