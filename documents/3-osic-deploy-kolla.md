@@ -135,10 +135,12 @@ sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/
 #Create Kolla Config Directory for storing config file for ceph, swift
 mkdir -p /etc/kolla/config
 mkdir -p /etc/kolla/config/swift/backups
+```
+##### Step 11: Use any one volume in your instance as Ceph OSD drive.
 
-# Use any one volume in your instance as a Ceph Bootstrap OSD:
+# Use any one volume in your instance as a Ceph Bootstrap OSD with:
 DISK=""
-sudo parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
+sudo parted /dev/$DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
 ```
 
 ##### Step 11: Generate passwords for individual openstack services:
