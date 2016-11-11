@@ -29,7 +29,7 @@ __Note:__ If you are in osic-prep-container exit and return back to your host.
 
 
 ```shell
-cd /root/
+
 git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
 
 git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
