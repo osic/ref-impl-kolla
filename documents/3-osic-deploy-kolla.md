@@ -68,9 +68,6 @@ __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/m
 
 ```shell
 cd /opt/kolla
-
-#Python and python-pip
-apt-get install python python-pip python-dev libffi-dev gcc libssl-dev -y
     
 #Install Dependencies
 pip install -r requirements.txt -r test-requirements.txt
