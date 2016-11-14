@@ -138,8 +138,11 @@ tee /etc/systemd/system/docker.service.d/kolla.conf <<-'EOF'
 [Service]
 MountFlags=shared
 EOF
+
+#Restart Docker service
 service docker restart
-mount --make-shared /run
+systemctl daemon-reload
+
 
 #For mounting /run as shared upon startup, add that command to /etc/rc.local:
 mount --make-shared /run
