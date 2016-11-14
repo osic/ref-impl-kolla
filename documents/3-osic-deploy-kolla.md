@@ -223,7 +223,7 @@ dd disks present in storage nodes in `storage_nodes` file.
 vi /opt/ref-impl-kolla/scripts/disks.lst
 
 #Create parition KOLLA_SWIFT_DATA:
-ansible-playbook -i ansible/inventory/multinode kolla-swift-playbook.yaml --ask-pass
+ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook.yaml --ask-pass
 ```
 
 ##### Step 2: Enable Swift services and configure swift device names and matching mode:
@@ -239,7 +239,7 @@ sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $
 vi /opt/ref-impl-kolla/scripts/storage_nodes
 
 #Create rings by running the `swift-prep-rings.sh`:
-./scripts/swift-prep-rings.sh 
+/bin/bash /opt/ref-impl-kolla/scripts/swift-prep-rings.sh 
 ```
 
 ##### Step 4: Ensure that the following ring files are present in `/etc/kolla/config/swift`:
