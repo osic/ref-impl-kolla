@@ -1,7 +1,7 @@
 ---
 
 - name: Playbook to create partition for Ceph
-  host: storage
+  hosts: storage
   remote_user: root
   become: yes
   tasks:
