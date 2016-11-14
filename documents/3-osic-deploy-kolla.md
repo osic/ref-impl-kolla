@@ -73,6 +73,13 @@ cd /opt/kolla
 pip install -r requirements.txt -r test-requirements.txt
 pip install -U docker-py
 
+
+# Install Ansible version 2.2
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+
 #Install kolla wrapper from source:
 python setup.py install
 
@@ -143,12 +150,13 @@ mkdir -p /etc/kolla/config/swift/backups
 vi /opt/ref-impl-kolla/scripts/disks.lst
 
 #Create parition KOLLA_CEPH_OSD_BOOTSTRAP:
-ansible-playbook -i ansible/inventory/multinode kolla-ceph-bootrstrap.yaml --ask-pass
+ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-ceph-bootrstrap.yaml --ask-pass
 ```
 
 ##### Step 12: Generate passwords for individual openstack services:
 ```shell
-#Generate Passwords
+#Execute this command to populate all empty fields in the 
+#/etc/kolla/passwords.yml file using randomly generated values to secure the deployment.
 kolla-genpwd
 
 #Check passwords.yaml to view passwords.
@@ -163,12 +171,6 @@ This will install all the required packages in target hosts.
 
 ```shell
 cd /opt/kolla
-
-# Install Ansible version 2.2
-sudo apt-get install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install ansible
 
 # Ensure that ansible version > 2.0
 ansible --version
