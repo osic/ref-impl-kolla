@@ -1,5 +1,5 @@
 #!/bin/bash
-file="disks.lst"
+file="/root/disks.lst"
 DISKS=(`cat $file`)
 index=0
 for d in ${DISKS[@]}; do
