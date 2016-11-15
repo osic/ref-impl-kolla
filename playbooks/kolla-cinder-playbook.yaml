@@ -1,0 +1,18 @@
+---
+
+- name: Prepare node disks
+  hosts: storage
+  remote_user: root
+  become: yes
+  tasks:
+    - name: Install xfsprogs package
+      apt:
+        name: xfsprogs
+        state: present
+        update_cache: yes
+    - name: Copy script
+      copy: src=../scripts/kolla-cinder-prep.sh dest=/root/ mode=0777
+    - name: Execute the script
+      shell: /bin/bash /root/kolla-cinder-prep.sh >> /root/out.cinder
+      ignore_errors: yes
+      become_user: root
