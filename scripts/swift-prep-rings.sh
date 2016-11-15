@@ -1,6 +1,6 @@
 #!/bin/bash
 apt-get install swift -y
-file="disks.lst"
+file="/root/disks.lst"
 DISKS=`cat $file`
 file="storage_nodes"
 STORAGE=`cat $file`
