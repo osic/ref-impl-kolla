@@ -135,8 +135,8 @@ sudo sed -i 's/#enable_ceph:.*/enable_ceph: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_ceph_rgw:.*/enable_ceph_rgw: "yes"/' $GLOBALS_FILE
 
 #Enable backend for Cinder and Glance
-sudo sed -i 's/#glance_backend_ceph:.*/glance_backend_ceph: "yes"/' $GLOBALS_FILE
-sudo sed -i 's/#cinder_backend_ceph:.*/cinder_backend_ceph: "{{ enable_ceph }}"/' $GLOBALS_FILE
+sudo sed -i 's/#glance_backend_file:.*/glance_backend_file: "yes"/' $GLOBALS_FILE
+sudo sed -i 's/#cinder_volume_group:.*/cinder_volume_group: "cinder-volumes"/' $GLOBALS_FILE
 
 #Create Kolla Config Directory for storing config files for ceph, swift
 mkdir -p /etc/kolla/config
@@ -166,8 +166,7 @@ vi /etc/kolla/passwords.yml
 B.) Bootstrap Servers
 ----------------------
 
-Execute the following command to bootstrap target hosts:
-This will install all the required packages in target hosts.
+##### Step 1: Execute the following commands to bootstrap target hosts. This will install all the required packages in target hosts.
 
 ```shell
 cd /opt/kolla
@@ -178,6 +177,12 @@ ansible --version
 # Bootstrap servers:
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
+
+##### Step 2: The cinder implementation defaults to using LVM storage. The default implementation requires a volume group be set up. This can either be a real physical volume or a loopback mounted file for development.
+```shell
+# Execute the following playbook to create volume groups in storage nodes.
+ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook.yaml --ask-pass
+```
 
 C.) Deploy Kolla
 ----------------
