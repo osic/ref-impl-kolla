@@ -2,7 +2,7 @@
 apt-get install swift -y
 file="/root/disks.lst"
 DISKS=`cat $file`
-file="storage_nodes"
+file="/opt/ref-impl-kolla/scripts/storage_nodes"
 STORAGE=`cat $file`
 slen=${#STORAGE[@]}
 dlen=${#DISKS[@]}
