@@ -1,5 +1,6 @@
-mknod /dev/loop9 b 7 2
-dd if=/dev/zero of=/var/lib/cinder_data.img bs=1G count=20
-losetup /dev/loop9 /var/lib/cinder_data.img
-pvcreate /dev/loop9
-vgcreate cinder-volumes /dev/loop9
+#!/bin/bash
+file="/root/disks.lst"
+DISKS=(`cat $file`)
+echo ${DISKS[0]}
+pvcreate /dev/${DISKS[0]}
+vgcreate cinder-volumes /dev/${DISKS[0]}
