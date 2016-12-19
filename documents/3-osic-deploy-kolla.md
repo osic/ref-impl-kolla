@@ -131,29 +131,16 @@ sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLO
 sudo sed -i 's/#enable_cinder:.*/enable_cinder: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_heat:.*/enable_heat: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#enable_horizon:.*/enable_horizon: "yes"/' $GLOBALS_FILE
-sudo sed -i 's/#enable_ceph:.*/enable_ceph: "yes"/' $GLOBALS_FILE
-sudo sed -i 's/#enable_ceph_rgw:.*/enable_ceph_rgw: "yes"/' $GLOBALS_FILE
 
 #Enable backend for Cinder and Glance
 sudo sed -i 's/#glance_backend_file:.*/glance_backend_file: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#cinder_volume_group:.*/cinder_volume_group: "cinder-volumes"/' $GLOBALS_FILE
 
 #Create Kolla Config Directory for storing config files for ceph, swift
-mkdir -p /etc/kolla/config
 mkdir -p /etc/kolla/config/swift/backups
 ```
 
-##### Step 11: Run playbook to create ceph bootstrap OSD:
-
-```shell
-#Add disks present in storage nodes in `disks.lst` file:
-vi /opt/ref-impl-kolla/scripts/disks.lst
-
-#Create parition KOLLA_CEPH_OSD_BOOTSTRAP:
-ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-ceph-bootrstrap.yaml --ask-pass
-```
-
-##### Step 12: Generate passwords for individual openstack services:
+##### Step 11: Generate passwords for individual openstack services:
 ```shell
 #Execute this command to populate all empty fields in the 
 #/etc/kolla/passwords.yml file using randomly generated values to secure the deployment.
@@ -178,7 +165,13 @@ ansible --version
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
-##### Step 2: The cinder implementation defaults to using LVM storage. The default implementation requires a volume group be set up. This can either be a real physical volume or a loopback mounted file for development.
+##### Step 2: The disks inside the storage nodes will be used as swift and cinder disks. Enter the disks in storage nodes inside disks.lst.
+```shell
+vi /opt/ref-impl-kolla/scripts/disks.lst
+```
+
+##### Step 3: The cinder implementation defaults to using LVM storage. The default implementation requires a volume group be set up. This can either be a real physical volume or a loopback mounted file for development. 
+__Note: The first disk listed in disks.lst will be used for creating cinder volume group.__
 ```shell
 # Execute the following playbook to create volume groups in storage nodes.
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook.yaml --ask-pass
@@ -223,10 +216,8 @@ D.) Deploy Swift
 
 ##### Step 1: Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
 dd disks present in storage nodes in `storage_nodes` file.
+__Note: All the remaining disks except for the first one listed in disks.lst will be used for creating swift partitions.__
 ```shell
-#Add disks present in storage nodes in `disks.lst` file:
-vi /opt/ref-impl-kolla/scripts/disks.lst
-
 #Create parition KOLLA_SWIFT_DATA:
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook.yaml --ask-pass
 ```
