@@ -32,31 +32,31 @@ Keystone, Nova, Cinder, Swift, Neutron, Glance, Heat, Horizon
 Deployment Experience:
 ----------------------
 
-#### Step 1: PXE Booting Server
+#### Step 1: PXE Booting Server<br />
 This step involves performing all the operation performed in:
-[1-osic-provisioning.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md). This included creating host file for all 100 nodes and PXE booting using cobbler. 
+[1-osic-provisioning.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md). This included creating host file for all 100 nodes and PXE booting using cobbler. <br />
 __Approx. time taken: 2 hours 15 mins.__ 
 
-__Do's and Dont's:__ 
-1. Do make sure that the ethernet interfaces of each server matches the server type. 
-2. Do not reboot the server without doing `cobbler sync`.
-3. Do not reboot the server without creating cobbler system profile.
-4. Do make sure that there is a DHCP entry of the server corresponds to the correct MAC address in case the server doesnt PXE boot.
+__Do's and Dont's:__ <br />
+1. Do make sure that the ethernet interfaces of each server matches the server type. <br />
+2. Do not reboot the server without doing `cobbler sync`. <br />
+3. Do not reboot the server without creating cobbler system profile.<br />
+4. Do make sure that there is a DHCP entry of the server corresponds to the correct MAC address in case the server doesnt PXE boot.<br />
 
-#### Step 2: Deploy Kolla
-Perform all the operations listed in [2-osic-inventory-docker-registry.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/2-osic-inventory-docker-registry.md) for creation of docker registry and [3-osic-deploy-kolla.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/3-osic-deploy-kolla.md) for deploying kolla.
+#### Step 2: Deploy Kolla<br />
+Perform all the operations listed in [2-osic-inventory-docker-registry.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/2-osic-inventory-docker-registry.md) for creation of docker registry and [3-osic-deploy-kolla.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/3-osic-deploy-kolla.md) for deploying kolla.<br />
 
-__Approx. time taken for creating docker registry:  6 mins__
-__Approx. time taken for preparing target host: 10 mins__
-__Approx time taken for Building Kolla images and pushing into docker registry: 13 mins__
-__Approx time taken for Deploying Kolla: 4 hours__ 
+__Approx. time taken for creating docker registry:  6 mins__<br />
+__Approx. time taken for preparing target host: 10 mins__<br />
+__Approx time taken for Building Kolla images and pushing into docker registry: 13 mins__<br />
+__Approx time taken for Deploying Kolla: 4 hours__ <br />
 
-__Total time: 4 hours 29 mins__
+__Total time: 4 hours 29 mins__<br />
 
-Do's and Dont's:
-1. Do make sure that you reboot the server when kernel gets updated.
-2. Do make sure you are able to ssh as root into target host from deployment host before starting kolla deployment.
-3. Do not run cinder and swift before running bootstrap server.
+__Do's and Dont's:__<br />
+1. Do make sure that you reboot the server when kernel gets updated.<br />
+2. Do make sure you are able to ssh as root into target host from deployment host before starting kolla deployment.<br />
+3. Do not run cinder and swift before running bootstrap server.<br />
 
 
 Overall Results:
