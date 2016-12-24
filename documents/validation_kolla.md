@@ -8,7 +8,7 @@ This document summarizes my overall experience of deploying Openstack Kolla on 1
 Environment
 -----------
 
-The cluster consists of both Dell and Lenovo bare metal servers. 
+The cluster consists of both Dell and Lenovo bare metal servers. <br />
 __Dell Server Specification:__
 __RAM:__ 256GB <br />
 __VCPUs:__ 48 VCPU <br />
