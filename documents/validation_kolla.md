@@ -27,14 +27,7 @@ __Storage Nodes:__ 20
 __Monitoring Nodes:__ 15
 
 __Services Deployed:__
-Keystone
-Nova
-Cinder
-Swift
-Neutron
-Glance
-Heat
-Horizon
+Keystone, Nova, Cinder, Swift, Neutron, Glance, Heat, Horizon
 
 Deployment Experience:
 ----------------------
