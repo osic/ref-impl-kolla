@@ -9,17 +9,17 @@ Environment
 -----------
 
 The cluster consists of both Dell and Lenovo bare metal servers. <br />
-__Dell Server Specification:__
+__Dell Server Specification:__ <br />
 __RAM:__ 256GB <br />
 __VCPUs:__ 48 VCPU <br />
 __Disk:__ 600GB <br />
 
-__Lenovo Server Specification:__
+__Lenovo Server Specification:__ <br />
 __RAM:__ 256GB <br />
 __VCPUs:__ 48 VCPU <br />
 __Disk:__ 600GB <br />
 
-__Node Distribution:__
+__Node Distribution:__ <br />
 __Controller Nodes:__ 5 <br />
 __Compute Nodes:__ 45 <br />
 __Network Nodes:__ 15 <br />
