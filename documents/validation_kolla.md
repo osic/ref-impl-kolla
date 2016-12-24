@@ -10,21 +10,21 @@ Environment
 
 The cluster consists of both Dell and Lenovo bare metal servers. 
 __Dell Server Specification:__
-__RAM:__ 256GB
-__VCPUs:__ 48 VCPU
-__Disk:__ 600GB
+__RAM:__ 256GB <br />
+__VCPUs:__ 48 VCPU <br />
+__Disk:__ 600GB <br />
 
 __Lenovo Server Specification:__
-__RAM:__ 256GB
-__VCPUs:__ 48 VCPU
-__Disk:__ 600GB
+__RAM:__ 256GB <br />
+__VCPUs:__ 48 VCPU <br />
+__Disk:__ 600GB <br />
 
 __Node Distribution:__
-__Controller Nodes:__ 5
-__Compute Nodes:__ 45
-__Network Nodes:__ 15
-__Storage Nodes:__ 20
-__Monitoring Nodes:__ 15
+__Controller Nodes:__ 5 <br />
+__Compute Nodes:__ 45 <br />
+__Network Nodes:__ 15 <br />
+__Storage Nodes:__ 20 <br />
+__Monitoring Nodes:__ 15 <br />
 
 __Services Deployed:__
 Keystone, Nova, Cinder, Swift, Neutron, Glance, Heat, Horizon
