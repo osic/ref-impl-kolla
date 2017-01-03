@@ -47,17 +47,17 @@ __Do's and Dont's:__ <br />
 Perform all the operations listed in [2-osic-inventory-docker-registry.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/2-osic-inventory-docker-registry.md) for creation of docker registry and [3-osic-deploy-kolla.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/3-osic-deploy-kolla.md) for deploying kolla.<br />
 
 __Without custom ansible configuration__
-__Approx. time taken for creating docker registry:  1 min__<br />
-__Approx. time taken for preparing target host: 3 mins__<br />
-__Approx time taken for Building Kolla images and pushing into docker registry: 7 mins__<br />
-__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy): 4 hours__ <br />
+__Approx. time taken for creating docker registry:__  1 min<br />
+__Approx. time taken for preparing target host:__ 3 mins<br />
+__Approx time taken for Building Kolla images and pushing into docker registry:__ 7 mins<br />
+__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy):__ 4 hours <br />
 
 __Total time: 4 hours 11 mins__<br />
 
 __With custom ansible configuration__<br/>
-__Forks: 100__<br/>
-__Pipelining: yes__<br/>
-__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy):  17 minutes and 23 seconds__ <br />
+__Forks:__ 100<br/>
+__Pipelining:__ yes<br/>
+__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy):__  17 minutes and 23 seconds <br />
 __Total time: 29 minutes 23 seconds__<br />
 
 
