@@ -46,12 +46,20 @@ __Do's and Dont's:__ <br />
 #### Step 2: Deploy Kolla<br />
 Perform all the operations listed in [2-osic-inventory-docker-registry.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/2-osic-inventory-docker-registry.md) for creation of docker registry and [3-osic-deploy-kolla.md](https://github.com/osic/ref-impl-kolla/blob/master/documents/3-osic-deploy-kolla.md) for deploying kolla.<br />
 
-__Approx. time taken for creating docker registry:  6 mins__<br />
-__Approx. time taken for preparing target host: 10 mins__<br />
-__Approx time taken for Building Kolla images and pushing into docker registry: 13 mins__<br />
-__Approx time taken for Deploying Kolla: 4 hours__ <br />
+__Without custom ansible configuration__
+__Approx. time taken for creating docker registry:  1 min__<br />
+__Approx. time taken for preparing target host: 3 mins__<br />
+__Approx time taken for Building Kolla images and pushing into docker registry: 7 mins__<br />
+__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy): 4 hours__ <br />
 
-__Total time: 4 hours 29 mins__<br />
+__Total time: 4 hours 11 mins__<br />
+
+__With custom ansible configuration__<br/>
+__Forks: 100__<br/>
+__Pipelining: yes__<br/>
+__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy):  17 minutes and 23 seconds__ <br />
+__Total time: 29 minutes 23 seconds__<br />
+
 
 __Do's and Dont's:__<br />
 1. Do make sure that you reboot the server when kernel gets updated.<br />
@@ -63,5 +71,8 @@ Overall Results:
 ----------------
 Due to prebuilt docker images for almost all services, deploying kolla is fast, simple and straightforward.
 
-Total Time: 6 hours 45 mins
+Total Time: 6 hours 26 mins
 ---------------------------
+
+Total Time with custom ansible configs: 2 hours 44 mins
+-------------------------------------------------------
