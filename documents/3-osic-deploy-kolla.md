@@ -11,11 +11,11 @@ This document summarizes the steps to deploy an openstack cloud from the Opensta
 
 By end of this chapter, keeping current configurations you will have an OpenStack environment composed of:
 - One deployment host.
-- compute hosts.
-- controller/infrastructure hosts.
-- monitoring hosts.
-- network hosts.
-- storage hosts.
+- Three compute hosts.
+- Three controller/infrastructure hosts.
+- One monitoring host.
+- One network host.
+- Three storage hosts.
 
 __NOTE: Santa Clara nodes do not have any physical disks. If the deployment is being performed on Santa Clara nodes, then execute only the santa clara playbooks for swift and cinder i.e. having a suffix `-santa.yaml`. These playbooks creates and uses only logical loop devices as swift and cinder disks instead of using seperate physical disks. If your storage nodes have physical disks other then sda then execute the playbooks that do not have `-santa.yaml` suffix.__
 
