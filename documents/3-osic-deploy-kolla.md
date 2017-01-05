@@ -5,7 +5,7 @@ Deploying Openstack Kolla
 Intro
 ------
 
-This document summarizes the steps to deploy an openstack cloud from the Openstack Kolla documentation. If you want to customize your deployment, please visit the Openstack Kolla documentation website at [OSA](http://docs.openstack.org/developer/kolla/)
+This document summarizes the steps to deploy an openstack cloud from the Openstack Kolla documentation. If you want to customize your deployment, please visit the Openstack Kolla documentation website at [Openstack Kolla](http://docs.openstack.org/developer/kolla/)
 
 #### Environment
 
