@@ -10,9 +10,7 @@
         state: present
         update_cache: yes
     - name: Copy script
-      copy: src=../scripts/swift-prep-disks.sh dest=/root/ mode=0777
-    - name: Copy disks.lst
-      copy: src=../scripts/disks.lst dest=/root/ mode=0777
+      copy: src=../scripts/swift-prep-disks-santa.sh dest=/root/ mode=0777
     - name: Execute the script
-      shell: /bin/bash /root/swift-prep-disks.sh >> /root/out
+      shell: /bin/bash /root/swift-prep-disks-santa.sh >> /root/out
       ignore_errors: yes

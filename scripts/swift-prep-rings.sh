@@ -7,8 +7,8 @@ file1="/opt/ref-impl-kolla/scripts/disks.lst"
 DISKS=$(cat  $file1 |tr "\n" " ")
 file2="/opt/ref-impl-kolla/scripts/storage_nodes"
 STORAGE=$(cat  $file2 |tr "\n" " ")
-slen=$(cat $file1 | wc -l)
-dlen=$(cat $file2 | wc -l)
+slen=$(cat $file2 | wc -l)
+dlen=$(cat $file1 | wc -l)
 
 # Object ring
 docker run \
@@ -75,4 +75,6 @@ for ring in object account container; do
      ${REGISTRY}/kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base:${TAG} swift-ring-builder \
     /etc/kolla/config/swift/${ring}.builder rebalance;
 done
+
+cp ../playbooks/start.yml /usr/local/share/kolla/ansible/roles/swift/tasks/
 echo "REBALANCING DONE"

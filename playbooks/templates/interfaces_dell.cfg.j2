@@ -1,0 +1,55 @@
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+
+auto lo
+iface lo inet loopback
+
+auto em1
+iface em1 inet manual
+      address {{ ansible_ssh_host_new }}
+      netmask 255.255.252.0
+      gateway 172.22.0.1
+      bond-master bond0
+      bond-primary em1
+
+auto em2
+iface em2 inet manual
+      bond-master bond1
+      bond-primary em2
+
+auto p3p1
+iface p3p1 inet manual
+      bond-master bond0
+
+auto p3p2
+iface p3p2 inet manual
+      bond-master bond1
+
+auto bond0
+iface bond0 inet manual
+      bond-slaves em1 p3p1
+      bond-mode active-backup
+      bond-miimon 100
+      bond-downdelay 200
+      bond-updelay 200
+      post-up post-up ip addr add {{ ansible_ssh_host_new }}/22 dev bond0
+      dns-namservers 8.8.8.8 8.8.4.4
+    
+auto bond1
+iface bond1 inet manual
+      bond-slaves em2 p3p2
+      bond-mode active-backup
+      bond-miimon 100
+      bond-downdelay 250
+      bond-updelay 250
+
+auto bond0.200
+iface bond0.200 inet static
+      address {{ ansible_ssh_host_ironic }}
+      netmask 255.255.248.0
+      gateway 10.3.72.1
+      post-up ip route add default via 10.3.72.1 || true
+
+source /etc/network/interfaces.d/*.cfg

@@ -1,5 +1,5 @@
 #!/bin/bash
-file="/root/disks.lst"
+file="/root/cinder.lst"
 DISKS=(`cat $file`)
 echo ${DISKS[0]}
 pvcreate /dev/${DISKS[0]}

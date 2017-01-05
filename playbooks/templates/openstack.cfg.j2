@@ -1,0 +1,67 @@
+# VLANS         
+# 241 mgmt 172.29.4.0/22                
+# 242 storage 172.29.8.0/22             
+# 243 overlay 172.29.12.0/22            
+# NAV flat 172.29.16.0/22               
+
+# Container management VLAN interface           
+iface bond0.241 inet manual
+vlan-raw-device bond0
+
+# Storage network VLAN interface (optional)             
+iface bond0.242 inet manual
+vlan-raw-device bond0
+
+# OpenStack Networking VXLAN (tunnel/overlay) VLAN interface            
+iface bond1.243 inet manual
+vlan-raw-device bond1
+
+# Container management bridge           
+auto br-mgmt
+iface br-mgmt inet static
+bridge_stp off
+bridge_waitport 0
+bridge_fd 0
+# Bridge port references tagged interface               
+bridge_ports bond0.241
+address 172.29.4.{{ ansible_ssh_host_new.split('.')[-1] }}
+netmask 255.255.252.0
+
+# OpenStack Networking VXLAN (tunnel/overlay) bridge            
+auto br-vxlan
+iface br-vxlan inet static
+bridge_stp off
+bridge_waitport 0
+bridge_fd 0
+# Bridge port references tagged interface               
+bridge_ports bond1.243
+address 172.29.8.{{ ansible_ssh_host_new.split('.')[-1] }}
+netmask 255.255.252.0
+
+# OpenStack Networking VLAN bridge              
+auto br-vlan
+iface br-vlan inet manual
+bridge_stp off
+bridge_waitport 0
+bridge_fd 0
+
+# Create veth pair, don't bomb if already exists                
+pre-up ip link add br-vlan-veth type veth peer name br-vlan-flat || true         
+# Set both ends UP              
+pre-up ip link set br-vlan-veth up
+pre-up ip link set br-vlan-flat up
+# Delete veth pair on DOWN              
+post-down ip link del br-vlan-veth || true
+# Bridge port references untagged interface             
+bridge_ports br-vlan-veth
+
+# Storage bridge (optional)             
+auto br-storage
+iface br-storage inet static
+bridge_stp off
+bridge_waitport 0
+bridge_fd 0
+# Bridge port reference tagged interface                
+bridge_ports bond0.242
+address 172.29.12.{{ ansible_ssh_host_new.split('.')[-1] }}
+netmask 255.255.252.0
