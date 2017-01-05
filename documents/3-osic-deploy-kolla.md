@@ -204,13 +204,6 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-##### Step 5: The deployment will fail if only one disk is used for Ceph. Run the following command to change the pool size to one:
-
-```shell
-docker exec ceph_mon ceph osd pool set rbd size 1
-docker exec ceph_mon ceph osd pool delete rbd rbd --yes-i-really-really-mean-it
-```
-
 D.) Deploy Swift
 ----------------
 
