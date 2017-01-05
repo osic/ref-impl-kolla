@@ -17,7 +17,7 @@ By end of this chapter, keeping current configurations you will have an OpenStac
 - One network host.
 - Three storage hosts.
 
-__NOTE: Santa Clara nodes do not have any physical disks. If the deployment is being performed on Santa Clara nodes, then execute only the santa clara playbooks for swift and cinder i.e. having a suffix `-santa.yaml`. These playbooks creates and uses only logical loop devices as swift and cinder disks instead of using seperate physical disks. If your storage nodes have physical disks other then sda then execute the playbooks that do not have `-santa.yaml` suffix.__
+__NOTE: If storage nodes do not have any physical disks other then sda, then execute only the playbooks for swift and cinder that are having a suffix `-santa.yaml`. These playbooks creates and uses only logical loop devices as swift and cinder disks instead of using seperate physical disks. If your storage nodes have physical disks other then sda then execute the playbooks that do not have `-santa.yaml` suffix.__
 
 A.) Prepare Deployment Host
 ---------------------------
@@ -167,15 +167,15 @@ ansible --version
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
-##### Step 2: The disks inside the storage nodes will be used as swift and cinder disks. Enter the "swift" disks in disks.lst and "cinder" disks in cinder.lst.
-__Note: Ignore this step if you are performing deployment on Santa Clara nodes__
+##### Step 2: The disks inside the storage nodes will be used as swift and cinder disks. Enter the `swift` disks in disks.lst and `cinder` disks in cinder.lst.
+__Note: Ignore this step if your storage nodes do not have physical disks other than `sda`__
 ```shell
 vi /opt/ref-impl-kolla/scripts/disks.lst
 vi /opt/ref-impl-kolla/scripts/cinder.lst
 ```
 
 ##### Step 3: The cinder implementation defaults to using LVM storage. The default implementation requires a volume group be set up. This can either be a real physical volume or a loopback mounted file for development. 
-__Note: If the deployment is performed in Santa Clara nodes then run the santa clara playbook for cinder.__
+__Note: Run the following playbook if your storage nodes do not have physical disks other that `sda`.__
 ```shell
 # Execute the following playbook to create volume groups in storage nodes.
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook-santa.yaml --ask-pass
@@ -218,7 +218,7 @@ D.) Deploy Swift
 ----------------
 
 ##### Step 1: Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
-__Note: If the deployment is performed in Santa Clara nodes then run the santa clara playbook for swift.__
+__Note: Run the following playbook if your storage nodes do not have physical disks other that `sda`.__
 ```shell
 #Create parition KOLLA_SWIFT_DATA:
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook-santa.yaml --ask-pass
