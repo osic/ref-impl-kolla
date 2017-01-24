@@ -152,6 +152,16 @@ kolla-genpwd
 vi /etc/kolla/passwords.yml 
 ```
 
+
+##### Step 12: Increase number of forks and enable pipelining in ansible configuration:
+```shell
+#Increase number of forks to 100:
+sed -i 's/#forks.*/forks=100/g' /etc/ansible/ansible.cfg
+
+#Enable pipelining:
+sed -i 's/#pipelining.*/pipelining = True/g' /etc/ansible/ansible.cfg
+```
+
 B.) Bootstrap Servers
 ----------------------
 
