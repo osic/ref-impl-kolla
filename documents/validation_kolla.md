@@ -50,8 +50,8 @@ __Without custom ansible configuration__
 __Approx. time taken for creating docker registry:__  1 min<br />
 __Approx. time taken for preparing target host:__ 3 mins<br />
 __Approx time taken for Building Kolla images and pushing into docker registry:__ 7 mins<br />
-__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy):__ 4 hours <br />
 
+__Approx time taken for Deploying Kolla (Bootstraping + docker image pull + deploy):__ 4 hours <br />
 __Total time: 4 hours 11 mins__<br />
 
 __With custom ansible configuration__<br/>
