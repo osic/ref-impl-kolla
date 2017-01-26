@@ -158,7 +158,7 @@ ansible --version
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
-##### Step 2: The disks inside the storage nodes will be used as swift and cinder disks. Enter the `swift` disks in disks.lst and `cinder` disks in cinder.lst.
+##### Step 2: The disks inside the storage nodes will be used as swift and cinder disks. Enter the `swift` disks in disks.lst and `cinder` disks in cinder.lst. To get a list of disks inside storage node, log in to one of the storage nodes and run `sudo fdisk -l`. This will give you list of all physical disks. Only select those having format as `/dev/sdx`
 __Note: Ignore this step if your storage nodes do not have physical disks other than `sda`__
 ```shell
 vi /opt/ref-impl-kolla/scripts/disks.lst
@@ -225,6 +225,15 @@ ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/ko
 sudo sed -i 's/#enable_swift:.*/enable_swift: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#swift_devices_match_mode:.*/swift_devices_match_mode: "strict"/' $GLOBALS_FILE
 sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $GLOBALS_FILE
+```
+
+##### Step 3: To create swift rings, the script uses the disks listed in `disks.lst`. In the case where the storage nodes do not have any physical disks, you need to log in to one of the storage nodes and use the disks listed in file `/root/out.swift`. 
+```shell
+#Log in to storage node
+ssh <storage-nodes>
+
+Find the disks that are in KOLLA_SWIFT_DATA partition.
+cat out.swift | grep /dev
 ```
 
 ##### Step 3: Create swift object, container and account rings on deployment node:
