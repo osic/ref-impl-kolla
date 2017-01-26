@@ -44,24 +44,17 @@ __Replace each host group in the multinode inventory file located in `/opt/kolla
 
 __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`.__
 
-##### Step 3: Install Ansible v2.2
-```shell
-sudo apt-get install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install ansible
-```
     
-##### Step 4: Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
+##### Step 3: Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
 ```shell
 ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/create-known-hosts.yaml
 ```
     
-##### Step 5: Copy public key to authorized_key file in deployment host to allow ssh to the same host.
+##### Step 4: Copy public key to authorized_key file in deployment host to allow ssh to the same host.
 
     cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
 
-##### Step 6: Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
+##### Step 5: Kolla deployment can be done using kolla wrapper which performs almost all functionalities needed to deploy kolla. To install kolla wrapper, execute these commands:
 
 ```shell
 cd /opt/kolla
@@ -78,21 +71,21 @@ echo "`hostname -I | cut -d ' ' -f 1` $(hostname)" | sudo tee -a /etc/hosts %>/d
 
 ```
 
-##### Step 7: Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
+##### Step 6: Kolla uses docker containers to deploy openstack services. For this, the docker images need to be pulled into the deployment host and pushed into the docker registry running on deployment host (created in Part 2). Follow these steps to build the images:
 
 ```shell
 #For purpose of simplicity we will be forcing docker to build openstack images on top of latest ubuntu installed from source with tag version 3.0.0:
 kolla-build --registry localhost:4000 --base ubuntu --type source --tag 3.0.0 --push
 ```
 
-##### Step 8: Copy the contents of the /opt/kolla/etc/kolla directory into /etc/. This directory contains the required configuration needed for kolla deployment.
+##### Step 7: Copy the contents of the /opt/kolla/etc/kolla directory into /etc/. This directory contains the required configuration needed for kolla deployment.
 
 ```shell
 cp -r /opt/kolla/etc/kolla /etc/
 GLOBALS_FILE=/etc/kolla/globals.yml
 ```
 
-##### Step 9: Execute the following commands which will configure the globals.yaml file. You need to make changes to the command based on the deployment environment:
+##### Step 8: Execute the following commands which will configure the globals.yaml file. You need to make changes to the command based on the deployment environment:
 
 ```shell
 #Change the kolla_base_distro and kolla_install_type to match the type of docker images build in step 4.
@@ -130,7 +123,7 @@ sudo sed -i 's/#cinder_volume_group:.*/cinder_volume_group: "cinder-volumes"/' $
 mkdir -p /etc/kolla/config/swift/backups
 ```
 
-##### Step 10: Generate passwords for individual openstack services:
+##### Step 9: Generate passwords for individual openstack services:
 ```shell
 #Execute this command to populate all empty fields in the 
 #/etc/kolla/passwords.yml file using randomly generated values to secure the deployment.
@@ -141,7 +134,7 @@ vi /etc/kolla/passwords.yml
 ```
 
 
-##### Step 11: Increase number of forks and enable pipelining in ansible configuration:
+##### Step 10: Increase number of forks and enable pipelining in ansible configuration:
 ```shell
 #Increase number of forks to 100:
 sed -i 's/#forks.*/forks=100/g' /etc/ansible/ansible.cfg
