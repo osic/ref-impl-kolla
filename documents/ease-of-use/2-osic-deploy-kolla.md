@@ -22,10 +22,10 @@ __NOTE: If storage nodes do not have any physical disks other then sda, then exe
 Table of Contents
 -----------------
 __[1. Prepare Deployment Host](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host)__<br/>
-__[2. Bootstrap Servers](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#bootstrap-servers)__<br/>
-__[3. Deploy Kolla](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#deploy-kolla)__<br/>
-__[4. Deploy Swift](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#deploy-swift)__<br/>
-__[5. Create Openstack RC](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#create-openstack-rc)__<br/>
+__[2. Bootstrap Servers](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#bootstrap-servers)__<br/>
+__[3. Deploy Kolla](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#deploy-kolla)__<br/>
+__[4. Deploy Swift](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#deploy-swift)__<br/>
+__[5. Create Openstack RC](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#create-openstack-rc)__<br/>
 
 
 Prepare Deployment Host
