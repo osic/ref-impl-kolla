@@ -21,11 +21,11 @@ __NOTE: If storage nodes do not have any physical disks other then sda, then exe
 
 Table of Contents
 -----------------
-[Prepare Deployment Host](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#1.-prepare-deployment-host)
+[Prepare Deployment Host](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host)
 
 
-1. Prepare Deployment Host
----------------------------
+Prepare Deployment Host
+-----------------------
 
 The first step would be to certain dependecies that would aid in the entire deployment process
 
