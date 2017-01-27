@@ -1,5 +1,5 @@
-Creating docker registry
-------------------------
+Part 1: Creating docker registry
+================================
 
 Openstack Kolla uses docker images to install OpenStack services. For multinode deployment, Openstack kolla uses the docker registry running on the deployment host to pull images and create containers. 
 
