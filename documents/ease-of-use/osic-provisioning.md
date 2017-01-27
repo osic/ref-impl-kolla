@@ -7,11 +7,11 @@ Overview
 
 The entire process of provisioning and bootstraping the server is performed through the following steps:
 
-[Step 1: Bare Metal Servers Provisioning.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#bare-metal-servers-provisioning)
+[Step 1: Bare Metal Servers Provisioning.](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/osic-provisioning.md#bare-metal-servers-provisioning)
 
-[Step 2: Download and Setup the osic-prep LXC Container.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#download-and-setup-the-osic-prep-lxc-container)
+[Step 2: Download and Setup the osic-prep LXC Container.](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/osic-provisioning.md#download-and-setup-the-osic-prep-lxc-container)
 
-[Step 3. PXE Boot the Servers.](https://github.com/osic/ref-impl-kolla/blob/master/documents/1-osic-provisioning.md#pxe-boot-the-servers)
+[Step 3. PXE Boot the Servers.](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/osic-provisioning.md#pxe-boot-the-servers)
 
 
 Bare Metal Servers provisioning
