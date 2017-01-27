@@ -24,7 +24,7 @@ bridge_waitport 0
 bridge_fd 0
 # Bridge port references tagged interface               
 bridge_ports bond0.241
-address 172.29.4.{{ ansible_ssh_host_new.split('.')[-1] }}
+address 172.29.4.{{ ansible_ssh_host.split('.')[-1] }}
 netmask 255.255.252.0
 
 # OpenStack Networking VXLAN (tunnel/overlay) bridge            
@@ -35,7 +35,7 @@ bridge_waitport 0
 bridge_fd 0
 # Bridge port references tagged interface               
 bridge_ports bond1.243
-address 172.29.8.{{ ansible_ssh_host_new.split('.')[-1] }}
+address 172.29.8.{{ ansible_ssh_host.split('.')[-1] }}
 netmask 255.255.252.0
 
 # OpenStack Networking VLAN bridge              
@@ -63,5 +63,5 @@ bridge_waitport 0
 bridge_fd 0
 # Bridge port reference tagged interface                
 bridge_ports bond0.242
-address 172.29.12.{{ ansible_ssh_host_new.split('.')[-1] }}
+address 172.29.12.{{ ansible_ssh_host.split('.')[-1] }}
 netmask 255.255.252.0

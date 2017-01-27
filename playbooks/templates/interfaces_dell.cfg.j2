@@ -8,7 +8,7 @@ iface lo inet loopback
 
 auto em1
 iface em1 inet manual
-      address {{ ansible_ssh_host_new }}
+      address {{ ansible_ssh_host }}
       netmask 255.255.252.0
       gateway 172.22.0.1
       bond-master bond0
@@ -34,7 +34,7 @@ iface bond0 inet manual
       bond-miimon 100
       bond-downdelay 200
       bond-updelay 200
-      post-up post-up ip addr add {{ ansible_ssh_host_new }}/22 dev bond0
+      post-up post-up ip addr add {{ ansible_ssh_host }}/22 dev bond0
       dns-namservers 8.8.8.8 8.8.4.4
     
 auto bond1
