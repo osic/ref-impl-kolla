@@ -182,7 +182,7 @@ Once the osic-prep container is create and configured, you are now ready to PXE 
 
 #### Part 1: Assign Cobbler system profile and generate cobbler systems.
 
-#####Step 1: Update the given input.csv:
+##### Step 1: Update the given input.csv:
 The `input.csv` file contains information about your target hosts. The format of the file is as follows:
 (hostname,MAC Address,IP Address,Subnet Mask,Gateway,Nameserver,Interface,Cobbler profile,environment)
 This file is given as input to a script which generates cobbler system profiles for each target host. The MAC address and interface field of the script is used by cobbler to PXE boot the host.
@@ -190,9 +190,9 @@ This file is given as input to a script which generates cobbler system profiles 
     
 __NOTE:__ before you continue, make sure the generated script __input.csv__ has all the information as shown previously. In case you run into some missing information, you may need to paste the above command in a bash script and execute it.
 
-__1. Copy the contents of `input.csv` to the root directory of `osic-prep` container__
+##### Step 2:  Copy the contents of `input.csv` to the root directory of `osic-prep` container
 
-__2. Copy the following script in a python file `update_cobbler_system.py`__
+##### Step 3:  Copy the following script in a python file `update_cobbler_system.py`
 ```shell
 #!/usr/bin/env python
 
@@ -227,18 +227,18 @@ with open(input) as csvfile:
 ```
 __Please make sure you have the proper identation__
 
-__3. Execute the script by giving input as `input.csv`:__
+##### Step 4: . Execute the script by giving input as `input.csv`:
 ```shell
 #Execute the script 
 python update_cobbler_system.py input.csv
 ```
 
-__4. Verfiy whether all the cobbler system profiles are generated:__
+##### Step 5: . Verfiy whether all the cobbler system profiles are generated:
 ```shell
 cobbler system list
 ```
 
-__5. Once all of the __cobbler systems__ are setup, run `cobbler sync`.__
+##### Step 6: . Once all of the __cobbler systems__ are setup, run `cobbler sync`.
 ```shell
 cobbler sync
 ```
