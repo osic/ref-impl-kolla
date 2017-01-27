@@ -184,7 +184,7 @@ Once the osic-prep container is create and configured, you are now ready to PXE 
 
 ##### Step 1: Update the given input.csv:
 The `input.csv` file contains information about your target hosts. The format of the file is as follows:
-(hostname,MAC Address,IP Address,Subnet Mask,Gateway,Nameserver,Interface,Cobbler profile,environment)
+__(hostname,MAC Address,IP Address,Subnet Mask,Gateway,Nameserver,Interface,Cobbler profile,environment,Ironic IP)__
 This file is given as input to a script which generates cobbler system profiles for each target host. The MAC address and interface field of the script is used by cobbler to PXE boot the host.
 
     
@@ -268,3 +268,40 @@ __NOTE__: In case you want to re-pxeboot servers, make sure to clean old setting
     for i in `cobbler system list`; do cobbler system remove --name $i; done;
 
 When all servers finish PXE booting, you will now need to set up the individual networks.
+
+Setup Network interfaces
+------------------------
+
+Once all servers finish PXE booting, you will now need to set up the network interfaces. Each bare metal server contains 4 physical interfaces. We need to create 2 bond interfaces and assign one of the bond interface to the `200` vlan so that the host can connect to the internet. 
+We will be using ansible playbooks for setting up the interfaces and creating bond interfaces.
+
+##### Step 1: Clone the ref-impl-kolla in /opt/:
+```shell
+apt-get install git -y
+git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
+```
+##### Step 2: The playbooks will require a host file containing PXE and Ironic IP of all target hosts. To generate such a host file, execute the following script to generate the host file:
+```shell
+#Change to scripts directory:
+cd /opt/ref-impl-kolla/scripts
+
+#Execute the script to generate the hosts file
+python generate_ansible_hosts.py /root/input.csv > ../playbooks/hosts
+
+#Check the contents of the hosts file:
+vi ../playbooks/hosts
+```
+##### Step 3: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
+```shell
+cd /opt/ref-impl-kolla/playbooks
+ansible-playbook -i hosts create-network-interfaces.yml --ask-pass
+```
+The playbook will apply the network configuration, add `8.8.8.8` to resolv.conf and reboot the nodes.
+Wait till all the nodes reboot.
+
+##### Step 4: Execute the script to set address of `bond0` interface that was created in the previous step.
+cd /opt/ref-impl-kolla/scripts
+./re-address.sh
+
+You should now be able to ssh to all target hosts using PXE IP.You have finished the provisioning part of the activity. Next step is to configure deployment host and deploy kolla.
+
