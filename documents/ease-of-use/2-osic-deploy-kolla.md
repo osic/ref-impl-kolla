@@ -1,5 +1,5 @@
-Deploying Openstack Kolla
-==========================
+Part 2: Deploying Openstack Kolla
+=================================
 
 
 Intro
