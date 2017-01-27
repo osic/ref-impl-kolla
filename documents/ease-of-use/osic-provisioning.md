@@ -1,5 +1,5 @@
-Part 1: Provisioning the server
-===============================
+Provisioning the server
+=======================
 
 
 Overview
