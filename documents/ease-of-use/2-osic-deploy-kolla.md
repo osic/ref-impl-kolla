@@ -21,7 +21,11 @@ __NOTE: If storage nodes do not have any physical disks other then sda, then exe
 
 Table of Contents
 -----------------
-[Prepare Deployment Host](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host)
+[1. Prepare Deployment Host](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host)
+[2. Bootstrap Servers](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#bootstrap-servers)
+[3. Deploy Kolla](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#deploy-kolla)
+[4. Deploy Swift](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#deploy-swift)
+[5. Create Openstack RC](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#prepare-deployment-host#create-openstack-rc)
 
 
 Prepare Deployment Host
@@ -155,8 +159,8 @@ sed -i 's/#forks.*/forks=100/g' /etc/ansible/ansible.cfg
 sed -i 's/#pipelining.*/pipelining = True/g' /etc/ansible/ansible.cfg
 ```
 
-B.) Bootstrap Servers
-----------------------
+Bootstrap Servers
+-----------------
 
 ##### Step 1: Execute the following commands to bootstrap target hosts. This will install all the required packages in target hosts.
 
@@ -190,8 +194,8 @@ ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/ko
 ```
 
 
-C.) Deploy Kolla
-----------------
+Deploy Kolla
+------------
 
 ##### Step 1: Switch to Kolla Directory
 
@@ -217,8 +221,8 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --ask-pass
 ```
 
-D.) Deploy Swift
-----------------
+Deploy Swift
+------------
 
 ##### Step 1: Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
 __Note: Run the following playbook if your storage nodes do not have physical disks other that `sda`.__
@@ -275,8 +279,8 @@ ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/
 ```
 
 
-E.) Create Openstack RC
------------------------
+Create Openstack RC
+-------------------
 
 Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
 
