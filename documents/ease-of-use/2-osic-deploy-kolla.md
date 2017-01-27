@@ -19,7 +19,12 @@ By end of this chapter, keeping current configurations you will have an OpenStac
 
 __NOTE: If storage nodes do not have any physical disks other then sda, then execute only the playbooks for swift and cinder that are having a suffix `-santa.yaml`. These playbooks creates and uses only logical loop devices as swift and cinder disks instead of using seperate physical disks. If your storage nodes have physical disks other then sda then execute the playbooks that do not have `-santa.yaml` suffix.__
 
-A.) Prepare Deployment Host
+Table of Contents
+-----------------
+[Prepare Deployment Host](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#1.-prepare-deployment-host)
+
+
+1. Prepare Deployment Host
 ---------------------------
 
 The first step would be to certain dependecies that would aid in the entire deployment process
