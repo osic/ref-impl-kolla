@@ -47,6 +47,13 @@ __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/m
     
 ##### Step 3: Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
 ```shell
+# Install Ansible version 2.2
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+
+#Execute playbook
 ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/create-known-hosts.yaml
 ```
     
