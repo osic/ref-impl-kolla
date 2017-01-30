@@ -320,3 +320,16 @@ Create Openstack rc file on deployment node (generated in /etc/kolla)(the passwo
 ```shell
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/post-deploy.yml --ask-pass
  ```
+
+Verify Installation
+-------------------
+
+To verify working of your openstack cluster and see which services are installed:
+```shell
+source /etc/kolla/admin-openrc.sh
+
+#Endpoint List
+openstack endpoint list
+```
+
+Congratulation! you have your OpenStack cluster running.
