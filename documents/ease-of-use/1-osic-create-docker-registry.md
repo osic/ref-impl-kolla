@@ -43,7 +43,6 @@ EOF
 
 #Restart Docker service
 service docker restart
-systemctl daemon-reload
 
 
 #For mounting /run as shared upon startup, add that command to /etc/rc.local:
@@ -77,6 +76,7 @@ cp /lib/systemd/system/docker.service /etc/systemd/system/docker.service
 
 ##### Step 8: Copy the following in `/etc/systemd/system/docker.service` to add the environmentFile variable and $DOCKER_OPTS under the `[service]` section.
 
+__Note: Do not execute the command. Just copy it to above file. __
 ```
 EnvironmentFile=-/etc/default/docker
 ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
