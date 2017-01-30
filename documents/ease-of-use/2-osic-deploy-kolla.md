@@ -53,7 +53,40 @@ __Replace each host group in the multinode inventory file located in `/opt/kolla
 
 __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`.__
 
-    
+```shell 
+#An Example Configuration of `multinode` file located at `/opt/kolla/ansible/inventory/multinode`
+[control]
+# These hostname must be resolvable from your deployment host
+172.22.0.24
+172.22.0.25
+172.22.0.26
+
+[network]
+172.22.0.27
+172.22.0.28
+172.22.0.29
+
+[compute]
+172.22.0.30
+172.22.0.31
+172.22.0.32
+
+
+[monitoring]
+172.22.0.33
+172.22.0.34
+172.22.0.35
+
+# When compute nodes and control nodes use different interfaces,
+# you can specify "api_interface" and another interfaces like below:
+#compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1
+
+[storage]
+172.22.0.36
+172.22.0.37
+172.22.0.38
+```
+
 ##### Step 3: Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
 ```shell
 # Install Ansible version 2.2
