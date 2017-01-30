@@ -26,6 +26,7 @@ __[2. Bootstrap Servers](https://github.com/osic/ref-impl-kolla/blob/master/docu
 __[3. Deploy Kolla](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#deploy-kolla)__<br/>
 __[4. Deploy Swift](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#deploy-swift)__<br/>
 __[5. Create Openstack RC](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#create-openstack-rc)__<br/>
+__[6. Verify Installation](https://github.com/osic/ref-impl-kolla/blob/master/documents/ease-of-use/2-osic-deploy-kolla.md#verify-installation)__<br/>
 
 
 Prepare Deployment Host
