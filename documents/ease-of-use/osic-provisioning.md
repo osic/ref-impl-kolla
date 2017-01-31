@@ -299,9 +299,15 @@ ansible-playbook -i hosts create-network-interfaces.yml --ask-pass
 The playbook will apply the network configuration, add `8.8.8.8` to resolv.conf and reboot the nodes.
 Wait till all the nodes reboot.
 
-##### Step 4: Execute the script to set address of `bond0` interface that was created in the previous step.
+##### Step 4: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
+```shell
 cd /opt/ref-impl-kolla/scripts
-./re-address.sh
 
+#Copy the generated `hosts` from `playbooks` directory
+cp ../playbooks/hosts .
+
+#Execute script to set up default gateway and assign PXE IP address.
+./re-address.sh
+```
 You should now be able to ssh to all target hosts using PXE IP.You have finished the provisioning part of the activity. Next step is to configure deployment host and deploy kolla.
 
