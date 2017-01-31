@@ -62,8 +62,9 @@ __Replace each host group in the multinode inventory file located in `/opt/kolla
 
 __The multinode host inventory is now located at `/opt/kolla/ansible/inventory/multinode`.__
 
+__An Example Configuration of `multinode` file located at `/opt/kolla/ansible/inventory/multinode` is shown below:__
+
 ```shell 
-#An Example Configuration of `multinode` file located at `/opt/kolla/ansible/inventory/multinode`
 [control]
 # These hostname must be resolvable from your deployment host
 172.22.0.24
