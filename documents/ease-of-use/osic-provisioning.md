@@ -309,5 +309,12 @@ cp ../playbooks/hosts .
 #Execute script to set up default gateway and assign PXE IP address.
 ./re-address.sh
 ```
+
+##### Step 5: Verify Ansible can talk to every server:
+```shell
+cd /opt/ref-impl-kolla/scripts
+
+ansible -i hosts all -m shell -a "uptime" --ask-pass
+```
 You should now be able to ssh to all target hosts using PXE IP.You have finished the provisioning part of the activity. Next step is to configure deployment host and deploy kolla.
 
