@@ -49,7 +49,13 @@ git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
 __About Ansible inventory: Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory file. You can specify a different inventory file using the `-i <path>` option on the command line. The ansible inventory file contains all the information needed to determine what services will land on which hosts. The operator can edit which services will be associated in with each group. __
 
 ```shell
+#If you have provisioned your own server, you need to copy the contents of the `hosts` file that you created in the `osic-#prep` ansible container to the deployment host
+vi /opt/ref-impl-kolla/scripts/hosts
+
+
+#If you are working on already provisioned servers copy the hosts file provided by the operator to your inventory.
 cp /etc/hosts /opt/ref-impl-kolla/inventory/
+
 ```
 
 __Replace each host group in the multinode inventory file located in `/opt/kolla/ansible/inventory/multinode`  with the one generated in the `hosts` file located at /opt/ref-impl-kolla/inventory/hosts.__
