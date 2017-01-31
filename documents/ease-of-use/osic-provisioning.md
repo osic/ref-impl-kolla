@@ -250,7 +250,7 @@ You are now ready for PXE booting target hosts.
  
 All the nodes in the Santa Clara cluster are provisioned using Ironic with Openstack Ansible. Due to this the we need to use `nova` commands to reboot the server and set them to PXE boot.
 
-To begin PXE booting simply log in to one of the infra nodes and attach to the utility container. Once inside the container, you will now execute the nova reboot commands.
+To begin PXE booting simply __log in to one of the infra nodes__. Once inside the node, you will now execute the nova reboot commands.
 
 ```shell
 #Source credentials
