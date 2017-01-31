@@ -160,7 +160,8 @@ INTERNAL_IP=""
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
-#Kolla requires atleast two interfaces on Target Hosts: FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel. SECOND_INTERFACE which is used as external interface for neutron:
+#Kolla requires atleast two interfaces on Target Hosts: FIRST_INTERFACE which is used as network interface for api, storage, #cluster and tunnel and which should have an IP address. SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can specify another interface wiht/without IP.
+
 FIRST_INTERFACE=<Target-host-interface-with-ip>
 SECOND_INTERFACE=<Target-host-interface-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
