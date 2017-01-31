@@ -21,7 +21,6 @@ apt-get update
 
 ```shell
 apt-get install linux-image-generic-lts-wily -y
-reboot
 ```
 
 ##### Step 3: Install and configure docker on deployment host.
