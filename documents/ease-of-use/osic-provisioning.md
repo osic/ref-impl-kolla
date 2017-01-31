@@ -263,6 +263,18 @@ nova start
 __NOTE__: For ease of use purpose, the list of servers are mentioned in the 
 `hosts_1` file. You simply need to execute `restart.sh` to reboot individual servers.
 
+__To quickly see which servers are still set to PXE boot, run the following command:__
+```shell
+for i in $(cobbler system list)
+do
+NETBOOT=$(cobbler system report --name $i | awk '/^Netboot/ {print $NF}')
+if [[ ${NETBOOT} == True ]]; then
+echo -e "$i: netboot_enabled : ${NETBOOT}"
+fi
+done
+```
+Any server which returns True has not yet PXE booted. Rerun last command until there is no output to make sure all your servers has finished pxebooting. Time to wait depends on the number of servers you are deploying. If somehow, one or two servers did not go through for a long time, you may want to investigate them with their nova console. In most cases, this is due to rebooting those servers either fails or hangs, you may need to re run the nova commands.
+
 __NOTE__: In case you want to re-pxeboot servers, make sure to clean old settings from cobbler with the following command:
 
     for i in `cobbler system list`; do cobbler system remove --name $i; done;
