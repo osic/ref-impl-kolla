@@ -46,7 +46,7 @@ git clone -b stable/newton https://github.com/openstack/kolla.git /opt/kolla
 
 ##### Step 2: Generate multinode inventory
 
-###### About Ansible inventory: Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory file. You can specify a different inventory file using the `-i <path>` option on the command line. The ansible inventory file contains all the information needed to determine what services will land on which hosts. The operator can edit which services will be associated in with each group. 
+__ About Ansible inventory: Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory file. You can specify a different inventory file using the `-i <path>` option on the command line. The ansible inventory file contains all the information needed to determine what services will land on which hosts. The operator can edit which services will be associated in with each group. __
 
 ```shell
 #If you have provisioned your own server, you need to copy the contents of the `hosts` file that you created in the `osic-#prep` ansible container to the deployment host
@@ -216,7 +216,7 @@ cd /opt/kolla
 # Ensure that ansible version > 2.0
 ansible --version
 
-# Bootstrap servers:
+# Bootstrap servers:__(the password is __cobbler__)
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
@@ -230,12 +230,12 @@ vi /opt/ref-impl-kolla/scripts/cinder.lst
 ##### Step 3: The cinder implementation defaults to using LVM storage. The default implementation requires a volume group be set up. This can either be a real physical volume or a loopback mounted file for development. 
 __Note: Run the following playbook if your storage nodes do not have physical disks other that `sda`.__
 ```shell
-# Execute the following playbook to create volume groups in storage nodes.
+# Execute the following playbook to create volume groups in storage nodes.__(the password is __cobbler__)
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook-santa.yaml --ask-pass
 ```
-__Note: For all other environment execute this playbook.__
+__Note: For all other environment execute this playbook.
 ```shell
-# Execute the following playbook to create volume groups in storage nodes.
+# Execute the following playbook to create volume groups in storage nodes.__(the password is __cobbler__)
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook.yaml --ask-pass
 ```
 
