@@ -159,8 +159,11 @@ sudo sed -i 's/^#kolla_install_type.*/kolla_install_type: "source"/' $GLOBALS_FI
 #Change the Openstack release tag:
 sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 
-#Use an unused IP on your network as the internal and external vip address.
-INTERNAL_IP=<IP-Address>
+#Disable Haproxy:
+sed -i '21s/^/enable_haproxy: no /' $GLOBALS_FILE
+
+#Enter IP address of your first controller node which you can get from `/opt/ref-impl-kolla/ansible/inventory/multinode`:
+INTERNAL_IP= <IP-Control-Node>
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
