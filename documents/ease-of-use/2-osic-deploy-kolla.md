@@ -172,7 +172,7 @@ sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 sed -i '21s/^/enable_haproxy: no /' $GLOBALS_FILE
 
 #Enter Ironic IP(10.3.72.x) address of your `first controller node` which you can get from 
-#`/opt/ref-impl-kolla/ansible/inventory/multinode`:
+#`/opt/ref-impl-kolla/inventory/hosts`:
 INTERNAL_IP= <IP-Control-Node>
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
