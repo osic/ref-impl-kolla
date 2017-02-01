@@ -343,7 +343,7 @@ cp ../playbooks/hosts .
 ./re-address.sh
 ```
 
-##### Step 6: Verify Ansible can talk to every server:
+##### Step 6: Verify Ansible can talk to every server (the password is `cobbler`):
 ```shell
 cd /opt/ref-impl-kolla/scripts
 
