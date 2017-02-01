@@ -7,6 +7,15 @@ Intro
 
 This document summarizes the steps to deploy an openstack cloud from the Openstack Kolla documentation. If you want to customize your deployment, please visit the Openstack Kolla documentation website at [Openstack Kolla](http://docs.openstack.org/developer/kolla/)
 
+
+#### About Target and Deployment hosts<br/>
+
+In Openstack deployment scenario, target hosts point to hosts/nodes on which you will be deploying Openstack services. In an inventory file, target hosts are usually mentioned under groups such as `[compute],[controller],[storage]...`. Deployment host is where the Operator who will be deploying Openstack should log on to and run the deployment tool. Deployment host talks to target hosts and deploys/copies configuration files to target hosts.
+
+#### About Ansible<br/>
+
+Ansible is an automation framework. It can configure systems, deploy software, and orchestrate more advanced IT tasks such as continuous deployments or zero downtime rolling updates. We will be using ansible as a part of our deployment strategy. Ansible will be used to execute certain tasks on your target hosts, copy configuration files from deployment host to target hosts, start docker containers, etc.  
+
 #### Environment
 
 By end of this chapter, keeping current configurations you will have an OpenStack environment composed of:
