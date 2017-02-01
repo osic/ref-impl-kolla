@@ -309,7 +309,13 @@ python generate_ansible_hosts.py /root/input.csv > /opt/ref-impl-kolla/playbooks
 #Check the contents of the hosts file:
 vi /opt/ref-impl-kolla/playbooks/hosts
 ```
-##### Step 3: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
+
+##### Step 3:Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
+```shell
+ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/create-known-hosts.yaml
+```
+
+##### Step 4: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
 ```shell
 cd /opt/ref-impl-kolla/playbooks
 ansible-playbook -i hosts create-network-interfaces.yml --ask-pass
@@ -326,7 +332,7 @@ This script will poll individual servers using Ironic IP. Once the server become
 
 __Proceed to next step only when `Available` message is displayed.__
 
-##### Step 4: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
+##### Step 5: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
 ```shell
 cd /opt/ref-impl-kolla/scripts
 
@@ -337,7 +343,7 @@ cp ../playbooks/hosts .
 ./re-address.sh
 ```
 
-##### Step 5: Verify Ansible can talk to every server:
+##### Step 6: Verify Ansible can talk to every server:
 ```shell
 cd /opt/ref-impl-kolla/scripts
 
