@@ -322,6 +322,9 @@ To keep track of which servers have completed rebooting execute the following sc
 cd /opt/ref-impl-kolla/scripts/
 ./poll.sh 
 ```
+This script will poll individual servers using Ironic IP. Once the server becomes available it will display output as `Available`. 
+
+__Proceed to next step only when `Available` message is displayed.__
 
 ##### Step 4: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
 ```shell
