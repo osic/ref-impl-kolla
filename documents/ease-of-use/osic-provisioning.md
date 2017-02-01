@@ -304,10 +304,10 @@ git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
 cd /opt/ref-impl-kolla/scripts
 
 #Execute the script to generate the hosts file
-python generate_ansible_hosts.py /root/input.csv > ../playbooks/hosts
+python generate_ansible_hosts.py /root/input.csv > /opt/ref-impl-kolla/playbooks/hosts
 
 #Check the contents of the hosts file:
-vi ../playbooks/hosts
+vi /opt/ref-impl-kolla/playbooks/hosts
 ```
 ##### Step 3: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
 ```shell
@@ -319,8 +319,8 @@ __Wait till all the nodes reboot.__
 
 To keep track of which servers have completed rebooting execute the following script:
 ```shell
-cd /opt/ref-impl-kolla/
-./poll.sh
+cd /opt/ref-impl-kolla/scripts/
+./poll.sh 
 ```
 
 ##### Step 4: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
