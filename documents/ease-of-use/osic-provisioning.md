@@ -184,8 +184,8 @@ Once the osic-prep container is create and configured, you are now ready to PXE 
 
 ##### Step 1: Update the given input.csv:
 
-###### About Target and Deployment hosts:<br/>
-In Openstack deployment scenario, target hosts point to hosts/nodes on which you will be deploying Openstack services. In an inventory file, target hosts are usually mentioned under groups such as `[compute],[controller],[storage]...`. Deployment host is where the Opertor who will be deploying Openstack should log on to and run the deployment tool. Deployment host talks to target hosts and deploys/copies configuration files to target hosts.
+__About Target and Deployment hosts:<br/>__
+In Openstack deployment scenario, target hosts point to hosts/nodes on which you will be deploying Openstack services. In an inventory file, target hosts are usually mentioned under groups such as `[compute],[controller],[storage]...`. Deployment host is where the Operator who will be deploying Openstack should log on to and run the deployment tool. Deployment host talks to target hosts and deploys/copies configuration files to target hosts.
 
 ###### The `input.csv` file contains information about your target hosts and deployment host. 
 The format of the file is as follows:
