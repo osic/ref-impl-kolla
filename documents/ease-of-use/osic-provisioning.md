@@ -304,12 +304,18 @@ git clone https://github.com/osic/ref-impl-kolla.git /opt/ref-impl-kolla
 cd /opt/ref-impl-kolla/scripts
 
 #Execute the script to generate the hosts file
-python generate_ansible_hosts.py /root/input.csv > ../playbooks/hosts
+python generate_ansible_hosts.py /root/input.csv > /opt/ref-impl-kolla/playbooks/hosts
 
 #Check the contents of the hosts file:
-vi ../playbooks/hosts
+vi /opt/ref-impl-kolla/playbooks/hosts
 ```
-##### Step 3: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
+
+##### Step 3:Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
+```shell
+ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/create-known-hosts.yaml
+```
+
+##### Step 4: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
 ```shell
 cd /opt/ref-impl-kolla/playbooks
 ansible-playbook -i hosts create-network-interfaces.yml --ask-pass
@@ -319,11 +325,14 @@ __Wait till all the nodes reboot.__
 
 To keep track of which servers have completed rebooting execute the following script:
 ```shell
-cd /opt/ref-impl-kolla/
-./poll.sh
+cd /opt/ref-impl-kolla/scripts/
+./poll.sh 
 ```
+This script will poll individual servers using Ironic IP. Once the server becomes available it will display output as `Available`. 
 
-##### Step 4: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
+__Proceed to next step only when `Available` message is displayed.__
+
+##### Step 5: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
 ```shell
 cd /opt/ref-impl-kolla/scripts
 
@@ -334,7 +343,7 @@ cp ../playbooks/hosts .
 ./re-address.sh
 ```
 
-##### Step 5: Verify Ansible can talk to every server:
+##### Step 6: Verify Ansible can talk to every server (the password is `cobbler`):
 ```shell
 cd /opt/ref-impl-kolla/scripts
 
