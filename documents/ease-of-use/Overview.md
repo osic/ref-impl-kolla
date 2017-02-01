@@ -6,7 +6,7 @@ Overview
 
 Consider the scenario where you have a number of bare metal servers and you want to build your own OpenStack cloud on top of them. The purpose of this repository is to help you achieve that goal and perform the OpenStack installation in a simple and efficient manner. 
 
-__Note: These steps need to be performed on the deployment host. __
+__Note: These steps need to be performed on the deployment host.__
 
 __If you have provisioned your own nodes and are in `osic-prep` container exit from `osic-prep` container and log in to the deployment host. If not provided by the operator, you will find the Deployment host IP from `hosts` file created in previous steps,__
 
