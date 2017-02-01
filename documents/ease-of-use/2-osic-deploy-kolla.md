@@ -171,16 +171,17 @@ sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 #Disable Haproxy:
 sed -i '21s/^/enable_haproxy: no /' $GLOBALS_FILE
 
-#Enter Ironic IP(10.3.72.x) address of your `first controller node` which you can get from `/opt/ref-impl-kolla/ansible/inventory/multinode`:
+#Enter Ironic IP(10.3.72.x) address of your `first controller node` which you can get from 
+#`/opt/ref-impl-kolla/ansible/inventory/multinode`:
 INTERNAL_IP= <IP-Control-Node>
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
 #Kolla requires atleast two interfaces on Target Hosts:
 #FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address.
-This interface should be the one on which Ironic IP is assigned.
+#This interface should be the one on which Ironic IP is assigned.
 #SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can 
-specify another interface wiht/without IP.
+specify another interface with/without IP.
 
 FIRST_INTERFACE=<Target-host-interface-with-ip>
 SECOND_INTERFACE=<Target-host-interface-without-ip>
