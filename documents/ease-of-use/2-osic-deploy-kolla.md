@@ -70,40 +70,40 @@ __An Example Configuration of `multinode` file located at `/opt/kolla/ansible/in
 ```shell 
 [control]
 # These hostname must be resolvable from your deployment host
-172.22.0.24
-172.22.0.25
-172.22.0.26
+control01 ansible_ssh_host=172.22.0.52 ansible_ssh_host_ironic=10.3.72.128
+control02 ansible_ssh_host=172.22.0.53 ansible_ssh_host_ironic=10.3.72.129
+control03 ansible_ssh_host=172.22.0.54 ansible_ssh_host_ironic=10.3.72.130
 
 [network]
-172.22.0.27
-172.22.0.28
-172.22.0.29
+network01 ansible_ssh_host=172.22.0.81 ansible_ssh_host_ironic=10.3.72.157
+network02 ansible_ssh_host=172.22.0.82 ansible_ssh_host_ironic=10.3.72.158
+network03 ansible_ssh_host=172.22.0.83 ansible_ssh_host_ironic=10.3.72.159
 
 [compute]
-172.22.0.30
-172.22.0.31
-172.22.0.32
-172.22.0.51
-172.22.0.52
-172.22.0.53
-172.22.0.54
-172.22.0.55
-172.22.0.56
-
+compute01 ansible_ssh_host=172.22.0.55 ansible_ssh_host_ironic=10.3.72.131
+compute02 ansible_ssh_host=172.22.0.56 ansible_ssh_host_ironic=10.3.72.132
+compute03 ansible_ssh_host=172.22.0.71 ansible_ssh_host_ironic=10.3.72.147
+compute04 ansible_ssh_host=172.22.0.72 ansible_ssh_host_ironic=10.3.72.148
+compute05 ansible_ssh_host=172.22.0.73 ansible_ssh_host_ironic=10.3.72.149
+compute06 ansible_ssh_host=172.22.0.74 ansible_ssh_host_ironic=10.3.72.150
+compute07 ansible_ssh_host=172.22.0.75 ansible_ssh_host_ironic=10.3.72.151
+compute08 ansible_ssh_host=172.22.0.76 ansible_ssh_host_ironic=10.3.72.152
+compute09 ansible_ssh_host=172.22.0.77 ansible_ssh_host_ironic=10.3.72.153
 
 [monitoring]
-172.22.0.33
-172.22.0.34
-172.22.0.35
+monitoring01 ansible_ssh_host=172.22.0.78 ansible_ssh_host_ironic=10.3.72.154
+monitoring02 ansible_ssh_host=172.22.0.79 ansible_ssh_host_ironic=10.3.72.155
+monitoring03 ansible_ssh_host=172.22.0.80 ansible_ssh_host_ironic=10.3.72.156
 
 # When compute nodes and control nodes use different interfaces,
 # you can specify "api_interface" and another interfaces like below:
 #compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1
 
 [storage]
-172.22.0.36
-172.22.0.37
-172.22.0.38
+storage01 ansible_ssh_host=172.22.0.103 ansible_ssh_host_ironic=10.3.72.179
+storage02 ansible_ssh_host=172.22.0.104 ansible_ssh_host_ironic=10.3.72.180
+storage03 ansible_ssh_host=172.22.0.105 ansible_ssh_host_ironic=10.3.72.181
+
 ```
 
 ##### Step 3: Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
@@ -162,7 +162,7 @@ sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 #Disable Haproxy:
 sed -i '21s/^/enable_haproxy: no /' $GLOBALS_FILE
 
-#Enter IP address of your first controller node which you can get from `/opt/ref-impl-kolla/ansible/inventory/multinode`:
+#Enter IP address of your `first controller node` which you can get from `/opt/ref-impl-kolla/ansible/inventory/multinode`:
 INTERNAL_IP= <IP-Control-Node>
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
