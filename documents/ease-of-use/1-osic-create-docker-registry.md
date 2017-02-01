@@ -27,7 +27,7 @@ apt-get install linux-image-generic-lts-wily -y
 
 ```shell
 # Install Docker Pre-requisites
-apt-get install python-dev libffi-dev gcc libssl-dev curl -y
+apt-get install python-dev libffi-dev gcc libssl-dev curl python-pip -y
 
 #Install pip from python not packages and then setuptools from pip. There has been several issues related to PIP and ubuntu #14.04. To be on safe side instead of downloading PIP from repo, we will install using python:
 python -m pip install -U pip
