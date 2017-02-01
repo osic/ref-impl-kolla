@@ -76,5 +76,5 @@ for ring in object account container; do
     /etc/kolla/config/swift/${ring}.builder rebalance;
 done
 
-cp ../playbooks/start.yml /usr/local/share/kolla/ansible/roles/swift/tasks/
+cp /opt/ref-impl-kolla/playbooks/start.yml /usr/local/share/kolla/ansible/roles/swift/tasks/
 echo "REBALANCING DONE"
