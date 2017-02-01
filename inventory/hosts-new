@@ -1,0 +1,22 @@
+deploy ansible_ssh_host=172.22.0.51 ansible_ssh_host_ironic=10.3.72.127
+control01 ansible_ssh_host=172.22.0.52 ansible_ssh_host_ironic=10.3.72.128
+control02 ansible_ssh_host=172.22.0.53 ansible_ssh_host_ironic=10.3.72.129
+control03 ansible_ssh_host=172.22.0.54 ansible_ssh_host_ironic=10.3.72.130
+compute01 ansible_ssh_host=172.22.0.55 ansible_ssh_host_ironic=10.3.72.131
+compute02 ansible_ssh_host=172.22.0.56 ansible_ssh_host_ironic=10.3.72.132
+compute03 ansible_ssh_host=172.22.0.71 ansible_ssh_host_ironic=10.3.72.147
+compute04 ansible_ssh_host=172.22.0.72 ansible_ssh_host_ironic=10.3.72.148
+compute05 ansible_ssh_host=172.22.0.73 ansible_ssh_host_ironic=10.3.72.149
+compute06 ansible_ssh_host=172.22.0.74 ansible_ssh_host_ironic=10.3.72.150
+compute07 ansible_ssh_host=172.22.0.75 ansible_ssh_host_ironic=10.3.72.151
+compute08 ansible_ssh_host=172.22.0.76 ansible_ssh_host_ironic=10.3.72.152
+monitoring01 ansible_ssh_host=172.22.0.78 ansible_ssh_host_ironic=10.3.72.154
+monitoring02 ansible_ssh_host=172.22.0.79 ansible_ssh_host_ironic=10.3.72.155
+monitoring03 ansible_ssh_host=172.22.0.80 ansible_ssh_host_ironic=10.3.72.156
+network01 ansible_ssh_host=172.22.0.81 ansible_ssh_host_ironic=10.3.72.157
+network02 ansible_ssh_host=172.22.0.82 ansible_ssh_host_ironic=10.3.72.158
+network03 ansible_ssh_host=172.22.0.83 ansible_ssh_host_ironic=10.3.72.159
+storage01 ansible_ssh_host=172.22.0.103 ansible_ssh_host_ironic=10.3.72.179
+storage02 ansible_ssh_host=172.22.0.104 ansible_ssh_host_ironic=10.3.72.180
+storage03 ansible_ssh_host=172.22.0.105 ansible_ssh_host_ironic=10.3.72.181
+

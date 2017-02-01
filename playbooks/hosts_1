@@ -1,1 +1,0 @@
-control01 ansible_ssh_host=172.22.0.24 ansible_ssh_host_ironic=10.3.72.100
