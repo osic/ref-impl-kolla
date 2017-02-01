@@ -23,14 +23,6 @@
   - name: Add address to bond0
     command: ip addr add {{ ansible_ssh_host }}/22 dev bond0
     ignore_errors: yes
-    
-  - name: Update repositories of target hosts
-    command: apt-get update
-    ignore_errors: yes
-  
-  - name: Update Kernel of target hosts
-    command: apt-get install linux-image-generic-lts-wily -y
-    ignore_errors: yes
   
   - name: Add nameserver to resolv.conf
     command: sed -i '1s/^/nameserver 8.8.8.8 /' /etc/resolv.conf
