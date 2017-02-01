@@ -51,8 +51,9 @@ __About Ansible inventory:__<br/>
 Ansible works against multiple systems in your infrastructure at the same time. It does this by selecting portions of systems listed in Ansible’s inventory file. You can specify a different inventory file using the `-i <path>` option on the command line. The ansible inventory file contains all the information needed to determine what services will land on which hosts. The operator can edit which services will be associated in with each group.
 
 ```shell
-#If you have provisioned your own server, you need to copy the contents of the `hosts` file that you created in the `osic-#prep` ansible container to the deployment host
-vi /opt/ref-impl-kolla/scripts/hosts
+#If you have provisioned your own server, you need to copy the contents of the `hosts` file that you created in the `osic-prep` ansible container to the deployment host. 
+#Log in to the osic-pre ansible container and copy the contents of `hosts` file to your deployment host at `/opt/ref-impl-kolla/playbooks`
+vi /opt/ref-impl-kolla/playbooks/hosts
 
 
 #If you are working on already provisioned servers copy the hosts file provided by the operator to your inventory.
@@ -108,7 +109,7 @@ __An Example Configuration of `multinode` file located at `/opt/kolla/ansible/in
 ##### Step 3: Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
 ```shell
 # Install Ansible version 2.2
-sudo apt-get install software-properties-common
+sudo apt-get install software-properties-common -y
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible
@@ -159,7 +160,7 @@ sudo sed -i 's/^#kolla_install_type.*/kolla_install_type: "source"/' $GLOBALS_FI
 sudo sed -i 's/^#openstack_release:.*/openstack_release: "3.0.0"/' $GLOBALS_FILE
 
 #Use an unused IP on your network as the internal and external vip address.
-INTERNAL_IP=""
+INTERNAL_IP=<IP-Address>
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 
@@ -286,6 +287,7 @@ ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/ko
 
 ##### Step 2: Enable Swift services and configure swift device names and matching mode:
 ```shell
+GLOBALS_FILE=/etc/kolla/globals.yml
 sudo sed -i 's/#enable_swift:.*/enable_swift: "yes"/' $GLOBALS_FILE
 sudo sed -i 's/#swift_devices_match_mode:.*/swift_devices_match_mode: "strict"/' $GLOBALS_FILE
 sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $GLOBALS_FILE
