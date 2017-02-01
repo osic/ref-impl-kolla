@@ -268,6 +268,7 @@ nova start
 __NOTE__: For ease of use purpose, the list of servers are mentioned in the 
 `hosts_1` file. You simply need to execute `restart.sh` to reboot individual servers.
 
+__Each server should take approximate 1 to 2 hours to finish PXE boot. Wait till all the servers become active.__
 __To quickly see which servers are still set to PXE boot, run the following command:__
 ```shell
 for i in $(cobbler system list)
@@ -313,8 +314,14 @@ vi ../playbooks/hosts
 cd /opt/ref-impl-kolla/playbooks
 ansible-playbook -i hosts create-network-interfaces.yml --ask-pass
 ```
-The playbook will apply the network configuration, add `8.8.8.8` to resolv.conf and reboot the nodes.
-Wait till all the nodes reboot.
+This playbook will apply the network configuration, add `8.8.8.8` to resolv.conf and __reboot the nodes__.
+__Wait till all the nodes reboot.__
+
+To keep track of which servers have completed rebooting execute the following script:
+```shell
+cd /opt/ref-impl-kolla/
+./poll.sh
+```
 
 ##### Step 4: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
 ```shell
