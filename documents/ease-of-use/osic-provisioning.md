@@ -187,10 +187,10 @@ Once the osic-prep container is create and configured, you are now ready to PXE 
 __About Target and Deployment hosts:<br/>__
 In Openstack deployment scenario, target hosts point to hosts/nodes on which you will be deploying Openstack services. In an inventory file, target hosts are usually mentioned under groups such as `[compute],[controller],[storage]...`. Deployment host is where the Operator who will be deploying Openstack should log on to and run the deployment tool. Deployment host talks to target hosts and deploys/copies configuration files to target hosts.
 
-###### The `input.csv` file contains information about your target hosts and deployment host. 
+__The `input.csv` file contains information about your target hosts and deployment host.__ 
 The format of the file is as follows:
 __(hostname,MAC Address,IP Address,Subnet Mask,Gateway,Nameserver,Interface,Cobbler profile,environment,Ironic IP)__
-This file is given as input to a script which generates cobbler system profiles for each target host. The MAC address and interface field of the script is used by cobbler to PXE boot the host.
+This file is given as input to a script which generates cobbler system profiles for each target host and deployment host. The MAC address and interface field of the script is used by cobbler to PXE boot the host.
 
     
 __NOTE:__ before you continue, make sure the generated script __input.csv__ has all the information as shown previously. In case you run into some missing information, you may need to paste the above command in a bash script and execute it.
