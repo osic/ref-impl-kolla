@@ -8,9 +8,9 @@ Consider the scenario where you have a number of bare metal servers and you want
 
 __Note: These steps need to be performed on the deployment host.__
 
-__If you have provisioned your own nodes and are in `osic-prep` container exit from `osic-prep` container and log in to the deployment host. If not provided by the operator, you will find the Deployment host IP from `hosts` file created in previous steps,__
+__If you have provisioned your own nodes and are in `osic-prep` container exit from `osic-prep` container and log in to the deployment host. If not provided by the operator, you will find the Deployment host IP from `hosts` file created in previous steps.__
 
-__If you are deploying Openstack on nodes that are already provisioned, you will find your information about target and deployment hosts from `/etc/hosts` file present in your deployment host. __
+__If you are deploying Openstack on nodes that are already provisioned, you will find your information about target and deployment hosts from `/etc/hosts` file present in your deployment host.__
 
 The process consists of two parts:
 
