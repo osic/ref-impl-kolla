@@ -41,8 +41,8 @@ __[6. Verify Installation](https://github.com/osic/ref-impl-kolla/blob/master/do
 Prepare Deployment Host
 -----------------------
 
-The first step would be to certain dependecies that would aid in the entire deployment process
-
+The following steps would aid in installing packages and configuring Kolla on your deployment host.
+If you are in any other host, exit and please log on to the __deployment host__:
 ##### Step 1: Clone the Openstack Kolla and ref-impl-kolla repository.
 
 
