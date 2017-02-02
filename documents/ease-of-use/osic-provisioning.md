@@ -28,7 +28,7 @@ Download and Setup the osic-prep LXC Container
 You have now successfully provisioned your own deployment host and should now be able to ssh to it using the IP address you manually assigned while install
  the deployment host provisioning done, SSH to it.
 
-Next, you will download a pre-packaged LXC container that contains a tool called Cobbler that will be used to PXE boot the rest of the servers. PXE booting is a mechanism where a single server (deployment host) can be used to provision the rest of the servers which use thier PXE-enabled Network Interface Cards to boot from a network hosted kernel.
+Next, you will download a pre-packaged LXC container that contains a tool called `Cobbler` that will be used to PXE boot the rest of the servers. PXE booting is a mechanism where a single server (deployment host) can be used to provision the rest of the servers which use thier PXE-enabled Network Interface Cards to boot from a network hosted kernel.
 
 #### Cobbler overview
 
@@ -290,8 +290,15 @@ When all servers finish PXE booting, you will now need to set up the individual 
 Setup Network interfaces
 ------------------------
 
+__These steps need to be performed from the `osic-prep` lxc container.__
+
 Once all servers finish PXE booting, you will now need to set up the network interfaces. Each bare metal server contains 4 physical interfaces. We need to create 2 bond interfaces and assign one of the bond interface to the `200` vlan so that the host can connect to the internet. 
 We will be using ansible playbooks for setting up the interfaces and creating bond interfaces.
+
+__About Ansible__
+
+Ansible is an automation framework. It can configure systems, deploy software, and orchestrate more advanced IT tasks such as continuous deployments or zero downtime rolling updates. We will be using ansible as a part of our deployment strategy. Ansible will be used to execute certain tasks on your target hosts, copy configuration files from deployment host to target hosts, start docker containers, etc.
+In this part we will use Ansible for configuring network interfaces, setting the nameserver and creating a default route in target and deployment host.
 
 ##### Step 1: Clone the ref-impl-kolla in /opt/:
 ```shell
