@@ -325,7 +325,7 @@ vi /opt/ref-impl-kolla/scripts/disks.lst
 
 ##### Step 3: Create swift object, container and account rings on deployment node:
 ```shell
-#Add storage nodes IP address in `storage_nodes` file:
+#Add storage nodes IP address (Ironic IP: 10.3.72.x) in `storage_nodes` file:
 vi /opt/ref-impl-kolla/scripts/storage_nodes
 
 #Create rings by running the `swift-prep-rings.sh`:
