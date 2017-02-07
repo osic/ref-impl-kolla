@@ -338,9 +338,9 @@ cp /opt/ref-impl-kolla/playbooks/hosts /opt/ref-impl-kolla/scripts/hosts
 cd /opt/ref-impl-kolla/scripts/
 ./poll.sh 
 ```
-This script will poll individual servers using Ironic IP. Once the server becomes available it will display output as `Available`. 
+This script will poll/ping individual servers using Ironic IP. Once the server becomes available it will display output as `Available`. 
 
-__Proceed to next step only when `Available` message is displayed.__
+__Wait for 10 to 12 seconds after `Available` message is displayed. Even after the network protocol is initiated it takes some time for the system to boot up completely.__
 
 ##### Step 5: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
 ```shell
