@@ -319,7 +319,7 @@ vi /opt/ref-impl-kolla/playbooks/hosts
 
 ##### Step 3:Execute this playbook to generate the ssh fingerprints of hosts defined in the multinode inventory and copy them to known_hosts file. These ssh fingerprints will then be used by Ansible to deploy services to individual hosts.
 ```shell
-ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/create-known-hosts.yaml
+ansible-playbook -i /opt/ref-impl-kolla/playbooks/hosts /opt/ref-impl-kolla/playbooks/create-known-hosts.yaml
 ```
 
 ##### Step 4: Execute the playbook to create and configure network interfaces on all target hosts:(password: cobbler)
@@ -332,6 +332,9 @@ __Wait till all the nodes reboot.__
 
 To keep track of which servers have completed rebooting execute the following script:
 ```shell
+#Copy the generated `hosts` from `playbooks` directory
+cp /opt/ref-impl-kolla/playbooks/hosts /opt/ref-impl-kolla/scripts/hosts
+
 cd /opt/ref-impl-kolla/scripts/
 ./poll.sh 
 ```
@@ -342,9 +345,6 @@ __Proceed to next step only when `Available` message is displayed.__
 ##### Step 5: The next step is to set up default gateway and assign PXE address to `bond0` interface. 
 ```shell
 cd /opt/ref-impl-kolla/scripts
-
-#Copy the generated `hosts` from `playbooks` directory
-cp ../playbooks/hosts .
 
 #Execute script to set up default gateway and assign PXE IP address.
 ./re-address.sh
