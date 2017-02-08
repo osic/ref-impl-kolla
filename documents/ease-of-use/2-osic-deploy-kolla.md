@@ -258,7 +258,8 @@ __Note: Run the following playbook if your storage nodes do not have physical di
 # Execute the following playbook to create volume groups in storage nodes.__(the password is __cobbler__)
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook-santa.yaml --ask-pass
 ```
-__Note: For all other environment execute this playbook.
+__OR__
+__Note: For all other environment execute this playbook.__
 ```shell
 # Execute the following playbook to create volume groups in storage nodes.__(the password is __cobbler__)
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook.yaml --ask-pass
@@ -301,6 +302,7 @@ __Note: Run the following playbook if your storage nodes do not have physical di
 #Create parition KOLLA_SWIFT_DATA:
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook-santa.yaml --ask-pass
 ```
+__OR__
 __Note: For all other environment execute this playbook.__
 ```shell
 #Create parition KOLLA_SWIFT_DATA:
@@ -375,4 +377,4 @@ source /etc/kolla/admin-openrc.sh
 openstack endpoint list
 ```
 
-Congratulation! you have your OpenStack cluster running.
+Congratulations! you have your OpenStack cluster running.
