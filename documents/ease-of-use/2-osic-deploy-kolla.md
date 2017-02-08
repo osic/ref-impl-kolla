@@ -183,8 +183,13 @@ sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${IN
 #SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can 
 specify another interface with/without IP.
 
-FIRST_INTERFACE=<Target-host-interface-with-ip>
-SECOND_INTERFACE=<Target-host-interface-without-ip>
+#To find which interface(First Interface) have an Ironic IP(10.3.72.x) and which interface can be used as Second Interface
+#execute the following command on your deployment/Target hosts
+ip a
+
+#Enter Interface Names
+FIRST_INTERFACE=<Interface-name-with-ip>
+SECOND_INTERFACE=<Interface-name-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
 
