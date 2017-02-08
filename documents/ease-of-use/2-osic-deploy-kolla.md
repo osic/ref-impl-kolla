@@ -181,7 +181,7 @@ sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${IN
 #FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address.
 #This interface should be the one on which Ironic IP is assigned.
 #SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can 
-specify another interface with/without IP.
+#specify another interface with/without IP.
 
 #To find which interface(First Interface) have an Ironic IP(10.3.72.x) and which interface can be used as Second Interface
 #execute the following command on your deployment/Target hosts
@@ -297,7 +297,7 @@ Deploy Swift
 ------------
 
 ##### Step 1: Create Parition KOLLA_SWIFT_DATA by running the playbok `kolla-swift-playbook.yaml` from deployment node:
-__Note: Run the following playbook if your storage nodes do not have physical disks other that `sda`.__
+__Note: Run the following playbook if your storage nodes do not have physical disks other than `sda`.__
 ```shell
 #Create parition KOLLA_SWIFT_DATA:
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook-santa.yaml --ask-pass
