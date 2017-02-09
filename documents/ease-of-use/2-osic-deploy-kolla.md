@@ -325,6 +325,9 @@ ssh <storage-nodes>
 #Find the disks that are in KOLLA_SWIFT_DATA partition on storage nodes.
 cat out.swift | grep /dev
 
+#After taking a note of the disks exit to the deployment host
+exit
+
 #Copy these disks in `disks.lst` on deployment host
 vi /opt/ref-impl-kolla/scripts/disks.lst
 
