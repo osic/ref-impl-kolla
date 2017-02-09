@@ -1,0 +1,12 @@
+---
+
+- name: Fix broken Packages
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Restart dpkg package preprocessor
+      shell: sudo dpkg --configure -a
+      ignore_errors: yes
+    - name: Fix broken packages and reinstall
+      shell: apt-get -f install -y
+      ignore_errors: yes
