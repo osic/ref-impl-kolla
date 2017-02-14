@@ -300,13 +300,13 @@ Deploy Swift
 __Note: Run the following playbook if your storage nodes do not have physical disks other than `sda`.__
 ```shell
 #Create parition KOLLA_SWIFT_DATA:
-ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook-santa.yaml --ask-pass
+ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook-santa.yaml --ask-pass
 ```
 __OR__ <br/>
 __Note: For all other environment execute this playbook.__
 ```shell
 #Create parition KOLLA_SWIFT_DATA:
-ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook.yaml --ask-pass
+ansible-playbook -i /opt/kolla/ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-swift-playbook.yaml --ask-pass
 ```
 
 ##### Step 2: Enable Swift services and configure swift device names and matching mode:
@@ -356,7 +356,7 @@ object.builder
 
 ##### Step 5: Deploy swift:
 ```shell
-ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --tags=swift --ask-pass
+ansible-playbook -i /opt/kolla/ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/local/share/kolla/ansible/site.yml --tags=swift --ask-pass
 ```
 
 
@@ -366,7 +366,7 @@ Create Openstack RC
 Create Openstack rc file on deployment node (generated in /etc/kolla)(the password is __cobbler__):
 
 ```shell
-ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/post-deploy.yml --ask-pass
+ansible-playbook -i /opt/kolla/ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/local/share/kolla/ansible/post-deploy.yml --ask-pass
  ```
 
 Verify Installation
