@@ -187,7 +187,7 @@ sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${IN
 #execute the following command on your deployment/Target hosts
 ip a
 
-#Enter Interface Names (Note: Only mention the interface names. If "@XXX" is present, ignore it.)
+#Enter Interface Names (Note: If "@XXX" is present in any interface name, ignore that sepcific part and mention everything before it.)
 FIRST_INTERFACE=<Interface-name-with-ip>
 SECOND_INTERFACE=<Interface-name-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
