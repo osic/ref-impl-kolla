@@ -323,12 +323,12 @@ sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $
 ssh <storage-nodes>
 
 #Find the disks that are in KOLLA_SWIFT_DATA partition on storage nodes.
-cat out.swift | grep /dev
+cat out.swift | awk 'BEGIN{ FS="/dev/"}{print $2}' | cut -d " " -f 1
 
 #After taking a note of the disks exit to the deployment host
 exit
 
-#Copy the disks names (/dev/xxxx) in `disks.lst` on deployment host
+#Copy the disks names in `disks.lst` on deployment host
 vi /opt/ref-impl-kolla/scripts/disks.lst
 
 ```
