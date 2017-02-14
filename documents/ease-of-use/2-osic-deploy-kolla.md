@@ -328,7 +328,7 @@ cat out.swift | grep /dev
 #After taking a note of the disks exit to the deployment host
 exit
 
-#Copy these disks in `disks.lst` on deployment host
+#Copy the disks names (/dev/xxxx) in `disks.lst` on deployment host
 vi /opt/ref-impl-kolla/scripts/disks.lst
 
 ```
