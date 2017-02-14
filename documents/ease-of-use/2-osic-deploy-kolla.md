@@ -255,13 +255,13 @@ vi /opt/ref-impl-kolla/scripts/cinder.lst
 ##### Step 3: The cinder implementation defaults to using LVM storage. The default implementation requires a volume group be set up. This can either be a real physical volume or a loopback mounted file for development. 
 __Note: Run the following playbook if your storage nodes do not have physical disks other that `sda`.__
 ```shell
-# Execute the following playbook to create volume groups in storage nodes.__(the password is __cobbler__)
+# Execute the following playbook to create volume groups in storage nodes.__(the password: cobbler)
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook-santa.yaml --ask-pass
 ```
 __OR__ <br/>
 __Note: For all other environment execute this playbook.__
 ```shell
-# Execute the following playbook to create volume groups in storage nodes.__(the password is __cobbler__)
+# Execute the following playbook to create volume groups in storage nodes.__(the password: cobbler)
 ansible-playbook -i ansible/inventory/multinode /opt/ref-impl-kolla/playbooks/kolla-cinder-playbook.yaml --ask-pass
 ```
 
