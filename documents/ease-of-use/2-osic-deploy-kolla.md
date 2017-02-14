@@ -241,7 +241,7 @@ cd /opt/kolla
 # Ensure that ansible version > 2.0
 ansible --version
 
-# Bootstrap servers:__(the password is __cobbler__)
+# Bootstrap servers:__(the password: cobbler)
 ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=bootstrap-servers /usr/local/share/kolla/ansible/kolla-host.yml --ask-pass
  ```
 
