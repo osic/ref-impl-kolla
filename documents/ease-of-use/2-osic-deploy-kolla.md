@@ -26,7 +26,7 @@ By end of this chapter, keeping current configurations you will have an OpenStac
 - Three network host.
 - Three storage hosts.
 
-__NOTE: If storage nodes do not have any physical disks other then sda, then execute only the playbooks for swift and cinder that are having a suffix `-santa.yaml`. These playbooks creates and uses only logical loop devices as swift and cinder disks instead of using seperate physical disks. If your storage nodes have physical disks other then sda then execute the playbooks that do not have `-santa.yaml` suffix.__
+__NOTE: If storage nodes do not have any physical disks other than sda, then execute only the playbooks for swift and cinder that are having a suffix `-santa.yaml`. These playbooks creates and uses only logical loop devices as swift and cinder disks instead of using seperate physical disks. If your storage nodes have physical disks other then sda then execute the playbooks that do not have `-santa.yaml` suffix.__
 
 Table of Contents
 -----------------
@@ -187,7 +187,7 @@ sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${IN
 #execute the following command on your deployment/Target hosts
 ip a
 
-#Enter Interface Names
+#Enter Interface Names (Note: Only mention the interface names. If "@XXX" is present, ignore it.)
 FIRST_INTERFACE=<Interface-name-with-ip>
 SECOND_INTERFACE=<Interface-name-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
