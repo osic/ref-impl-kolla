@@ -76,7 +76,7 @@ echo "DOCKER_OPTS=\"--insecure-registry `hostname -I | cut -d ' ' -f 1`:4000\"" 
 cp /lib/systemd/system/docker.service /etc/systemd/system/docker.service
 ```
 
-##### Step 7: Copy the following in `/etc/systemd/system/docker.service` to add the environmentFile variable and $DOCKER_OPTS under the `[service]` section.
+##### Step 7: Copy the code below into `/etc/systemd/system/docker.service` to add the environmentFile variable and $DOCKER_OPTS under the `[service]` section.
 
 Note: Do not execute the command. Just copy it to above file.
 ```
