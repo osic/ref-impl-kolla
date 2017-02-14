@@ -3,6 +3,7 @@
   connection: local
   gather_facts: no
   tasks:
+  - command: rm ~/.ssh/known_hosts
   - command: /usr/bin/ssh-keyscan {{ ansible_ssh_host }}
     register: keyscan
   - lineinfile: name=~/.ssh/known_hosts create=yes line={{ item }}
