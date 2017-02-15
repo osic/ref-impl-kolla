@@ -179,11 +179,10 @@ sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${IN
 ```
 ##### Step 8: Kolla requires atleast two interfaces on Target Hosts:
 1. FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address. This interface should be the one on which Ironic IP is assigned.
-2. SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can 
-specify another interface with/without IP.
+2. SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can specify another interface with/without IP.
 
 __To find which interface(First Interface) have an Ironic IP(10.3.72.x) and which interface can be used as Second Interface
-#execute the following command on your deployment/Target hosts__
+execute the following command on your deployment/Target hosts__
 ```shell
 ip a
 ```
@@ -196,8 +195,7 @@ sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
 ```
 
-##### Step 9:
-#In case of multinode deployment, the deployment host must provide information about the docker registry to the target hosts:
+##### Step 9: In case of multinode deployment, the deployment host must provide information about the docker registry to the target hosts:
 ```shell
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
 sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLOBALS_FILE
