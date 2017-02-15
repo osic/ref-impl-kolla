@@ -187,7 +187,7 @@ execute the following command on your deployment/Target hosts__
 ip a
 ```
 
-__Type Interface Names (Note: If interface name is of the format "eth0@eth1", ignore the "@eth1" and simply write "eth0")__
+__Enter Interface names in variables `FIRST_INTERFACE` and `SECOND_INTERFACE` (Note: If interface name is of the format "eth0@eth1", ignore the "@eth1" and simply write "eth0")__
 ```shell
 FIRST_INTERFACE=<Interface-name-with-ip>
 SECOND_INTERFACE=<Interface-name-without-ip>
