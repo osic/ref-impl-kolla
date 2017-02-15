@@ -176,24 +176,29 @@ sed -i '21s/^/enable_haproxy: no /' $GLOBALS_FILE
 INTERNAL_IP= <IP-Control-Node>
 sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
+```
+##### Step 8: Kolla requires atleast two interfaces on Target Hosts:
+1. FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address. This interface should be the one on which Ironic IP is assigned.
+2. SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can 
+specify another interface with/without IP.
 
-#Kolla requires atleast two interfaces on Target Hosts:
-#FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address.
-#This interface should be the one on which Ironic IP is assigned.
-#SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can 
-#specify another interface with/without IP.
-
-#To find which interface(First Interface) have an Ironic IP(10.3.72.x) and which interface can be used as Second Interface
-#execute the following command on your deployment/Target hosts
+__To find which interface(First Interface) have an Ironic IP(10.3.72.x) and which interface can be used as Second Interface
+#execute the following command on your deployment/Target hosts__
+```shell
 ip a
+```
 
-#Enter Interface Names (Note: If interface name is of the format "eth0@eth1", ignore the "@eth1" and simply write "eth0")
+__Type Interface Names (Note: If interface name is of the format "eth0@eth1", ignore the "@eth1" and simply write "eth0")__
+```shell
 FIRST_INTERFACE=<Interface-name-with-ip>
 SECOND_INTERFACE=<Interface-name-without-ip>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
+```
 
+##### Step 9:
 #In case of multinode deployment, the deployment host must provide information about the docker registry to the target hosts:
+```shell
 registry_host=$(echo "`hostname -I | cut -d ' ' -f 1`:4000")
 sudo sed -i 's/#docker_registry:.*/docker_registry: "'${registry_host}'"/g' $GLOBALS_FILE
 
@@ -210,7 +215,7 @@ sudo sed -i 's/#cinder_volume_group:.*/cinder_volume_group: "cinder-volumes"/' $
 mkdir -p /etc/kolla/config/swift/backups
 ```
 
-##### Step 8: Generate passwords for individual openstack services:
+##### Step 10: Generate passwords for individual openstack services:
 ```shell
 #Execute this command to populate all empty fields in the 
 #/etc/kolla/passwords.yml file using randomly generated values to secure the deployment.
@@ -221,7 +226,7 @@ vi /etc/kolla/passwords.yml
 ```
 
 
-##### Step 9: Increase number of forks and enable pipelining in ansible configuration:
+##### Step 11: Increase number of forks and enable pipelining in ansible configuration:
 ```shell
 #Increase number of forks to 100:
 sed -i 's/#forks.*/forks=100/g' /etc/ansible/ansible.cfg
