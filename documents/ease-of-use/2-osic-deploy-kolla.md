@@ -331,14 +331,14 @@ cat out.swift | awk 'BEGIN{ FS="/dev/"}{print $2}' | cut -d " " -f 1
 #After taking a note of the disks exit to the deployment host
 exit
 
-#Copy the disks names in `disks.lst` on deployment host
+#Copy the disks names in `disks.lst` on deployment host (one on each line without space)
 vi /opt/ref-impl-kolla/scripts/disks.lst
 
 ```
 
 ##### Step 3: Create swift object, container and account rings on deployment node:
 ```shell
-#Add storage nodes IP address (Ironic IP: 10.3.72.x) in `storage_nodes` file:
+#Add storage nodes IP address (Ironic IP: 10.3.72.x) in `storage_nodes` file (one on each line):
 vi /opt/ref-impl-kolla/scripts/storage_nodes
 
 #Create rings by running the `swift-prep-rings.sh`:
