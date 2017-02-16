@@ -215,7 +215,7 @@ mkdir -p /etc/kolla/config/swift/backups
 
 ##### Step 10: Validate your globals.yaml to make sure your distro, network and service configuration is correct:
 ```shell
-python /opt/ref-impl-kolla/validate-globals.py
+python /opt/ref-impl-kolla/scripts/validate-globals.py
 ```
 __Proceed to next step if the output of the above script is "Configuration in globals.yaml is correct."__
 
