@@ -320,7 +320,7 @@ sudo sed -i 's/#swift_devices_match_mode:.*/swift_devices_match_mode: "strict"/'
 sudo sed -i 's/#swift_devices_name:.*/swift_devices_name: "KOLLA_SWIFT_DATA"/' $GLOBALS_FILE
 ```
 
-##### Step 3: To create swift rings, the script uses the disks listed in `disks.lst`. In the case where the storage nodes do not have any physical disks, you need to log in to one of the storage nodes and use the disks listed in file `/root/out.swift`. .
+##### Step 3: To create swift rings, the script uses the disks listed in `disks.lst`. In the case where the storage nodes do not have any physical disks, you need to log in to ONE of the storage nodes and use the disks listed in file `/root/out.swift`. .
 ```shell
 #Log in to storage node
 ssh <storage-nodes>
