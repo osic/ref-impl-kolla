@@ -178,19 +178,19 @@ sudo sed -i 's/^kolla_internal_vip_address.*/kolla_internal_vip_address: "'${INT
 sudo sed -i 's/^#kolla_external_vip_address.*/kolla_external_vip_address: "'${INTERNAL_IP}'"/' $GLOBALS_FILE
 ```
 ##### Step 8: Kolla requires atleast two interfaces on Target Hosts:
-1. FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address. This interface should be the one on which Ironic IP/INTERNAL_IP (stored in previous step) is assigned
+1. FIRST_INTERFACE which is used as network interface for api, storage, cluster and tunnel and which should have an IP address. This interface should be the one on which an Ironic IP(10.3.72) is assigned
 2. SECOND_INTERFACE which is used as external interface for neutron can be the same as FIRST_INTERFACE or one can specify another interface with/without IP.
 
 __To find which interface(First Interface) have an Ironic IP/INTERNAL_IP(10.3.72.x) and which interface can be used as Second Interface
 execute the following command on your deployment/Target hosts__
 ```shell
-ip a
+ip a 
 ```
 
 __Enter Interface names in variables `FIRST_INTERFACE` and `SECOND_INTERFACE` (Note: If interface name is of the format "eth0@eth1", ignore the "@eth1" and simply write "eth0")__
 ```shell
-FIRST_INTERFACE=<Interface-name-with-ip>
-SECOND_INTERFACE=<Interface-name-without-ip>
+FIRST_INTERFACE=<Interface-name>
+SECOND_INTERFACE=<Interface-name>
 sudo sed -i 's/^#network_interface.*/network_interface: "'${FIRST_INTERFACE}'"/g' $GLOBALS_FILE
 sudo sed -i 's/^#neutron_external_interface.*/neutron_external_interface: "'${SECOND_INTERFACE}'"/g' $GLOBALS_FILE
 ```
