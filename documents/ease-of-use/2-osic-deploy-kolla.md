@@ -214,13 +214,7 @@ sudo sed -i 's/#cinder_volume_group:.*/cinder_volume_group: "cinder-volumes"/' $
 mkdir -p /etc/kolla/config/swift/backups
 ```
 
-##### Step 10: Validate your globals.yaml to make sure your distro, network and service configuration is correct:
-```shell
-python /opt/ref-impl-kolla/scripts/validate-globals.py
-```
-__Proceed to next step if the output of the above script is "Configuration in globals.yaml is correct."__
-
-##### Step 11: Generate passwords for individual openstack services:
+##### Step 10: Generate passwords for individual openstack services:
 ```shell
 #Execute this command to populate all empty fields in the 
 #/etc/kolla/passwords.yml file using randomly generated values to secure the deployment.
@@ -230,7 +224,7 @@ kolla-genpwd
 vi /etc/kolla/passwords.yml 
 ```
 
-##### Step 12: Increase number of forks and enable pipelining in ansible configuration:
+##### Step 11: Increase number of forks and enable pipelining in ansible configuration:
 ```shell
 #Increase number of forks to 100:
 sed -i 's/#forks.*/forks=100/g' /etc/ansible/ansible.cfg
