@@ -186,6 +186,7 @@ execute the following command on your deployment/Target hosts__
 ```shell
 ip a 
 ```
+The above command will output a list of interfaces along with the IP address assigned to that interface. To obtain the `FIRST_INTERFACE`, you can use `pipe` and `grep 10.3.72.x` command on the list of interfaces.
 
 __Enter Interface names in variables `FIRST_INTERFACE` and `SECOND_INTERFACE` (Note: If interface name is of the format "eth0@eth1", ignore the "@eth1" and simply write "eth0")__
 ```shell
