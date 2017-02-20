@@ -12,7 +12,7 @@
     - name: Copy script
       copy: src=../scripts/kolla-cinder-prep.sh dest=/root/ mode=0777
     - name: Copy cinder disk file
-      copy: src=../scripts/cinder.lst dest=/roor/ mode=0777
+      copy: src=../scripts/cinder.lst dest=/root/ mode=0777
     - name: Execute the script
       shell: /bin/bash /root/kolla-cinder-prep.sh >> /root/out.cinder
       ignore_errors: yes
