@@ -8,14 +8,14 @@ When it comes to deployment tool adoption, one of the key factor to consider is 
 
 # Repo Structure
 
-The Repo contains the following folders:
-1. Document: Contains Ease of Use deployment guide.
-   |_ ease-of-use: Most updated deployment guide.
-      |_ osic-provisoning.md: Describes Bare Metal provisioning.
-      |_ Overview.md: Overview of Ease of Use deployment process.
-      |_ 1-osic-create-docker-registry.md: Contains detailed steps to create docker registry on deployment host.
-      |_ 2-osic-deploy-kolla.md: Contains steps to prepare your deployment host and deploy OpenStack services using Kolla.
-2. Inventory: Contains sample Ansible host inventory files.
-3. Playbooks: Contains playbooks used to prepare storage nodes, create swift partitions, create cinder volume groups, adding ssh signatures, configuring network interfaces for bare metal provisioning.
-4. Scripts: Contains shell and python scripts for creating swift rings, generate ansible host file, polling bare metal servers during provisioning, configuring PXE IP on bare metal servers.
+The Repo contains the following folders: <br/>
+1. Document: Contains Ease of Use deployment guide.<br/>
+   |_ ease-of-use: Most updated deployment guide.<br/>
+      |_ osic-provisoning.md: Describes Bare Metal provisioning.<br/>
+      |_ Overview.md: Overview of Ease of Use deployment process.<br/>
+      |_ 1-osic-create-docker-registry.md: Contains detailed steps to create docker registry on deployment host.<br/>
+      |_ 2-osic-deploy-kolla.md: Contains steps to prepare your deployment host and deploy OpenStack services using Kolla.<br/>
+2. Inventory: Contains sample Ansible host inventory files.<br/>
+3. Playbooks: Contains playbooks used to prepare storage nodes, create swift partitions, create cinder volume groups, adding ssh signatures, configuring network interfaces for bare metal provisioning.<br/>
+4. Scripts: Contains shell and python scripts for creating swift rings, generate ansible host file, polling bare metal servers during provisioning, configuring PXE IP on bare metal servers.<br/>
 
