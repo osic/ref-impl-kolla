@@ -9,13 +9,13 @@ When it comes to deployment tool adoption, one of the key factor to consider is 
 # Repo Structure
 
 The Repo contains the following folders: <br/>
-1. Document: Contains Ease of Use deployment guide.<br/>
-&nbsp;&nbsp;&nbsp;|_ ease-of-use: Most updated deployment guide.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ osic-provisoning.md: Describes Bare Metal provisioning.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ Overview.md: Overview of Ease of Use deployment process.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ 1-osic-create-docker-registry.md: Contains detailed steps to create docker registry on deployment host.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ 2-osic-deploy-kolla.md: Contains steps to prepare your deployment host and deploy OpenStack services using Kolla.<br/>
-2. Inventory: Contains sample Ansible host inventory files.<br/>
-3. Playbooks: Contains playbooks used to prepare storage nodes, create swift partitions, create cinder volume groups, adding ssh signatures, configuring network interfaces for bare metal provisioning.<br/>
-4. Scripts: Contains shell and python scripts for creating swift rings, generate ansible host file, polling bare metal servers during provisioning, configuring PXE IP on bare metal servers.<br/>
+__1. Document:__ Contains Ease of Use deployment guide.<br/>
+&nbsp;&nbsp;&nbsp;|_ `ease-of-use` Most updated deployment guide.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ `osic-provisoning.md` Describes Bare Metal provisioning.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ `Overview.md` Overview of Ease of Use deployment process.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ `1-osic-create-docker-registry.md` Contains detailed steps to create docker registry on deployment host.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ `2-osic-deploy-kolla.md` Contains steps to prepare your deployment host and deploy OpenStack services using Kolla.<br/>
+__2. Inventory:__ Contains sample Ansible host inventory files.<br/>
+__3. Playbooks:__ Contains playbooks used to prepare storage nodes, create swift partitions, create cinder volume groups, adding ssh signatures, configuring network interfaces for bare metal provisioning.<br/>
+__4. Scripts:__ Contains shell and python scripts for creating swift rings, generate ansible host file, polling bare metal servers during provisioning, configuring PXE IP on bare metal servers.<br/>
 
