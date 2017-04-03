@@ -1,0 +1,46 @@
+---
+
+- name: Reset Kolla cluster
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Copy script cleanup-containers
+      copy: src=/opt/kolla/tools/cleanup-containers dest=/root/ mode=0777
+    - name: Execute the script cleanup-containers
+      shell: /bin/bash /root/cleanup-containers
+      ignore_errors: yes
+    - name: Copy script cleanup-images
+      copy: src=/opt/kolla/tools/cleanup-images dest=/root/ mode=0777
+    - name: Execute the script cleanup-images
+      shell: /bin/bash /root/cleanup-images
+      ignore_errors: yes
+    - name: Copy script cleanup-host
+      copy: src=/opt/kolla/tools/cleanup-host dest=/root/ mode=0777
+    - name: Execute the script cleanup-host
+      shell: /bin/bash /root/cleanup-host       
+      ignore_errors: yes
+    - name: Removing scripts
+      shell: rm /root/cleanup-*; rm /root/*.sh
+      ignore_errors: yes
+    - name: Remove Docker
+      shell: apt-get purge docker-engine -y; apt-get autoremove --purge docker-engine -y; rm -rf /var/lib/docker
+      ignore_errors: yes
+    - name: Remove Ansible 
+      shell: apt-get remove ansible
+      ignore_errors: yes
+    - name: Delete Kolla directory
+      shell: rm -rf /opt/kolla
+      delegate_to: 127.0.0.1
+      ignore_errors: yes
+    - name: Delete ref-impl-kolla
+      shell: rm -rf /opt/ref-impl-kolla
+      delegate_to: 127.0.0.1
+      ignore_errors: yes
+    - name: Remove Ansible on localhost
+      shell: apt-get remove ansible -y ;sudo apt-get remove --auto-remove ansible -y
+      delegate_to: 127.0.0.1
+      ignore_errors: yes
+    - name: Remove Docker on localhost
+      shell: rm /etc/systemd/system/docker.service; apt-get purge docker-engine -y; apt-get autoremove --purge docker-engine -y;
+      ignore_errors: yes
+      delegate_to: 127.0.0.1
